@@ -1,0 +1,43 @@
+html { 
+  background: url(../images/PB_Albertina_Lesesaal.jpg) repeat; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#headerBar {
+    height: 20px;
+    color: white;
+    background: #545454
+}
+
+div.nav ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+div.nav ul li {
+	background: #fff;
+	display: inline-block;
+	padding: 5px 10px 5px 10px;
+}
+
+div.nav ul li:hover {
+	background: #dadada;
+}
+
+
+div.nav ul li.active {
+	background: #555;
+	display: inline-block;
+	padding: 5px 10px 5px 10px;
+}
+
+a li.active  {
+	color: white;
+}
+
+.row {
+	background: #efefef;
+}

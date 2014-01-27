@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Dashboard</title>
+
+    <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='f/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='f/css/foundation.css') }}">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- If you are using the gem version, you need this only -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/app.css') }}">
+    <script src="{{url_for('static', filename='f/js/vendor/modernizr.js') }}"></script>
+
+</head>
+<body>
+
+
+    <div class="row">
+        <div class="small-12 large-12 columns">
+            <p></p>
+            <h3>Dashboard</h3>
+            <p>Here you'll find today fuzzy deduplication dataset. In 3 sources,
+                we found 34341 candidates for deduplication. There are 
+                22399 unvoted items. 7000 have been rated positive and 3000
+                negative. You can also access the complete raw data index
+                from here. And you can start various workflows, too.
+            </p>
+            <div id="hmenu">
+                <div class="nav">
+                    <ul>
+                        <a href="{{ url_for('unrated') }}"><li {% if name == "unrated" %}class="active"{% endif %}>Unrated</li></a>
+                        <a href="{{ url_for('rated', v='plus') }}"><li {% if name == "plus" %}class="active"{% endif %}>Positives</li></a>
+                        <a  href="{{ url_for('rated', v='minus') }}"><li {% if name == "minus" %}class="active"{% endif %} >Negatives</li></a>
+                        <a href="{{ url_for('summary') }}"><li {% if name == "summary" %}class="active"{% endif %} >Summary</li></a>
+                        <a href="{{ url_for('search') }}"><li {% if name == "search" %}class="active"{% endif %} >Search</li></a>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+        <div class="row">
+        <div class="small-12 large-12 columns">
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="small-4 large-4 columns">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+            </p>
+        </div>
+        <div class="small-4 large-4 columns">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>        
+        </div>
+        <div class="small-4 large-4 columns">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- body content here -->
+    <script src="{{url_for('static', filename='f/js/vendor/jquery.js') }}"></script>
+    <script src="{{url_for('static', filename='f/js/foundation.min.js') }}"></script>
+    <script>
+    $(document).foundation();
+    </script>
+</body>
+</html>
