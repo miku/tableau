@@ -1,0 +1,92 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="row">
+<div class="small-10 large-10 columns">
+
+<div>
+            <table rules="rows">
+
+{% for result in results %}
+<!-- <div class="item">
+    <p>
+        {{result[1]}} | {{result[2]}} <strong><span class="title" index="{{result[1]}}" id="{{result[2]}}"></span></strong>
+        <br>
+        <span class="authors" index="{{result[1]}}" id="{{result[2]}}"></span>
+        <br>
+        {{result[3]}} | {{result[4]}} <strong><span class="authors" index="{{result[3]}}" id="{{result[4]}}"></span></strong>
+</p>
+
+</div>
+ -->
+   
+        <tr>
+            <td>{{result[1]}}</td>
+            <td>{{result[2]}}
+                    <br>
+                    <strong><span class="title" index="{{result[1]}}" id="{{result[2]}}"></span></strong>
+                    <br>
+                    <span class="authors" index="{{result[1]}}" id="{{result[2]}}"></span><br>
+                    <span class="pages" index="{{result[1]}}" id="{{result[2]}}"></span>
+            </td>
+            <td>{{result[3]}}</td>
+            <td>{{result[4]}}
+
+                    <br>
+                    <strong><span class="title" index="{{result[3]}}" id="{{result[4]}}"></span></strong>
+                    <br>
+                    <span class="authors" index="{{result[3]}}" id="{{result[4]}}"></span>
+                    <br>
+                    <span class="pages" index="{{result[3]}}" id="{{result[4]}}"></span>   
+
+
+            </td>
+            <td><a href="#"><span style="background: #fffece; padding: 5px; color: green; font-weight: bold">VALID</a></td>
+            <td><span style="color: orange; font-weight: bold">INVALID</td>
+        </tr>
+    
+
+{% endfor %}
+        </table>
+
+</div>
+
+
+</div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".title").each(function() {
+            var self = $(this);
+            console.log(self.attr('index'));
+            $.get("/title/" + self.attr('index') + "/" + self.attr('id'), function(data) {
+                console.log(data);
+                self.text(data);
+            })
+        })
+
+        $(".authors").each(function() {
+            var self = $(this);
+            console.log(self.attr('index'));
+            $.get("/authors/" + self.attr('index') + "/" + self.attr('id'), function(data) {
+                console.log(data);
+                self.text(data);
+            })
+        })
+
+        $(".pages").each(function() {
+            var self = $(this);
+            console.log(self.attr('index'));
+            $.get("/pages/" + self.attr('index') + "/" + self.attr('id'), function(data) {
+                console.log(data);
+                self.text(data);
+            })
+        })
+
+    });
+</script>
+{% endblock %}
+

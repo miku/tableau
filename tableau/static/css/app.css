@@ -1,9 +1,16 @@
 html { 
-  background: url(../images/PB_Albertina_Lesesaal.jpg) repeat; 
+  background: url(../images/PB_Albertina_Lesesaal.jpg); 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  background-repeat:no-repeat;
+	background-attachment:fixed;
+	overflow-y: scroll;
+}
+
+.item {
+	border-bottom: solid thin gray;
 }
 
 #headerBar {
