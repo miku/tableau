@@ -5,12 +5,34 @@ html {
   -o-background-size: cover;
   background-size: cover;
   background-repeat:no-repeat;
-	background-attachment:fixed;
-	overflow-y: scroll;
+    background-attachment:fixed;
+    overflow-y: scroll;
 }
 
 .item {
-	border-bottom: solid thin gray;
+    border-bottom: solid thin gray;
+}
+
+td {
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.field-245a {
+    font-weight: bold;
+}
+
+.hint {
+    color: #898989;
+}
+
+.small {
+    font-size: 10px;
 }
 
 #headerBar {
@@ -20,31 +42,31 @@ html {
 }
 
 div.nav ul {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 div.nav ul li {
-	background: #fff;
-	display: inline-block;
-	padding: 5px 10px 5px 10px;
+    background: #fff;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
 }
 
 div.nav ul li:hover {
-	background: #dadada;
+    background: #dadada;
 }
 
 
 div.nav ul li.active {
-	background: #555;
-	display: inline-block;
-	padding: 5px 10px 5px 10px;
+    background: #555;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
 }
 
 a li.active  {
-	color: white;
+    color: white;
 }
 
 .row {
-	background: #efefef;
+    background: #efefef;
 }
