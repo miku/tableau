@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flask import Flask, render_template, redirect, request, url_for, jsonify, Response
 from utils import dbopen
+import json
 import elasticsearch
 
 app = Flask(__name__)
@@ -10,9 +11,18 @@ SIMDB = "/media/mtc/Data/tasktree-data/f3/similar-db/date-2014-01-28-indices-nep
 @app.route("/unrated")
 def unrated():
     with dbopen(SIMDB) as cursor:
-        cursor.execute("SELECT * from similarity limit 250")
+        cursor.execute("SELECT * from similarity limit 10")
         results = cursor.fetchall()
+        print(results[0])
     return render_template('unrated.html', name='unrated', results=results)
+
+@app.route("/pairs")
+def pairs():
+    with dbopen(SIMDB) as cursor:
+        cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
+        results = cursor.fetchall()
+    return Response(json.dumps(results), mimetype="application/json")
+
 
 @app.route("/rated")
 def rated():
