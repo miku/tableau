@@ -18,11 +18,6 @@ def pairs():
         results = cursor.fetchall()
     return Response(json.dumps(results), mimetype="application/json")
 
-@app.route("/rated")
-def rated():
-    name = request.args.get('v', 'plus')
-    return render_template('index.html', name=name)
-
 @app.route("/summary")
 def summary():
     return render_template('index.html', name='summary')
