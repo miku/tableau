@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 
-from flask import Flask, render_template, redirect, request, url_for, jsonify, Response
-from utils import dbopen
-import json
-import elasticsearch
 from config import SIMDB
+from flask import Flask, render_template, redirect, request, url_for, jsonify, Response, send_from_directory
+from utils import dbopen
+import elasticsearch
+import json
+import os
+import random
 
 app = Flask(__name__)
+
+@app.route('/static/images/bg.jpg')
+def random_background():
+    filename = random.choice(os.listdir('static/images'))
+    print(filename)
+    return send_from_directory('static/images', filename)
 
 @app.route("/unrated")
 def unrated():
@@ -22,7 +30,6 @@ def pairs():
         cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
         results = cursor.fetchall()
     return Response(json.dumps(results), mimetype="application/json")
-
 
 @app.route("/rated")
 def rated():
@@ -42,6 +49,13 @@ def doc(index, id):
     es = elasticsearch.Elasticsearch()
     source = es.get_source(index=index, id=id)
     return jsonify(source)
+
+@app.route("/compare")
+def compare():
+    with dbopen(SIMDB) as cursor:
+        cursor.execute("SELECT * from similarity order by RANDOM() limit 1")
+        result = cursor.fetchone()
+    return render_template('compare.html', name='compare', result=result)
 
 @app.route("/")
 def hello():
