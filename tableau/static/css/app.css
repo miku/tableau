@@ -1,10 +1,12 @@
 html {
-  background: url(../images/PB_Albertina_Lesesaal.jpg);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-repeat:repeat;
+  /*background: url(../images/bg.jpg);*/
+  background: url(../images/leipzig_albertinum_100831.jpg);
+  /*background: url(../images/Bibliothek-westend-2005-10-27_1.jpg);  */
+  /*-webkit-background-size: cover;*/
+  /*-moz-background-size: cover;*/
+  /*-o-background-size: cover;*/
+  /*background-size: cover;*/
+  background-repeat: repeat;
     background-attachment:fixed;
     overflow-y: scroll;
 }
@@ -14,14 +16,15 @@ html {
 }
 
 table tr td {
-    padding: 0.2rem 0.2rem;
-    /*padding: 0.5625rem 0.625rem;*/
+    /*padding: 0.2rem 0.2rem;*/
+    padding: 0.5625rem 0.625rem;
     /*padding: 0.1625rem 0.025rem;*/
 }
 
 table {
     border-spacing: 0;
     border-collapse: collapse;
+    border: none;
 }
 
 .ok {
@@ -54,13 +57,15 @@ table {
     background: #545454
 }
 
+
 div.nav ul {
+    background: #efefef;
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 div.nav ul li {
-    background: #fff;
+    background: #efefef;
     display: inline-block;
     padding: 5px 10px 5px 10px;
 }
