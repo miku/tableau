@@ -1,0 +1,101 @@
+{% extends "index.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="small-12 large-12 columns">
+    
+    <div class="content">
+        <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
+
+    <table>
+        <tr>
+            <td></td>
+            <td><strong>{{ result[1] }}</strong></td>
+            <td><strong>{{ result[3] }}</strong></td>
+        </tr>
+        <tr>
+            <td>001</td>
+            <td class="tdoc" index="{{ result[1] }}" id="{{ result[2] }}">
+                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id:{{ result[2] }}">{{ result[2] }}</a>
+            </td>
+            <td class="tdoc" index="{{ result[3] }}" id="{{ result[4] }}">
+                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id:{{ result[4] }}">{{ result[4] }}</a>
+            </td>
+
+        </tr>
+
+        {% for field in ('245a', '245b', '245c', '260c', '100a',
+                         '700a', '655a', '935b', '020a', '300a', '500a') %}
+            <tr>
+                <td><span class="hint">{{ field }}</span></td>
+                <td class="field field-{{field}}">
+                    <span id="{{ result[1] }}-{{ result[2] }}-{{field}}" class="{{ field }}"></span>
+                </td>
+                <td class="field field-{{field}}">
+                    <span id="{{ result[3] }}-{{ result[4] }}-{{field}}" class="{{ field }}"></span>
+                </td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td></td>
+            <td colspan=2><a href="#" class="">Show more details ...</a></td>
+        </tr>
+<!--         <tr>
+            <td></td>
+            <td colspan=2>
+                <textarea></textarea>
+                <a href="#" class="small button">Comment</a>
+            </td>
+        </tr>
+ -->
+    </table>
+
+    <div class="comment">
+        <textarea></textarea>
+        <a class="tiny secondary button" href="#">Comment</a>
+    </div>
+    <hr>
+
+    <a href="{{ url_for('compare') }}" class="button radius secondary success">OK</a>
+    <a href="{{ url_for('compare') }}" class="button radius secondary alert">False</a>
+    <a href="{{ url_for('compare') }}" class="button radius secondary">Skip</a>
+
+
+    </div>
+</div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var firstvalue = function(data, tag) {
+            var field = tag.substring(0, 3);
+            var subfield = tag.substring(3, 4);
+            try { value = data['content'][field][0][subfield] || "NA";
+            } catch (err) { value = "NA"}
+            return value;
+        }
+
+        $("td.tdoc").each(function() {
+            var self = $(this);
+            var index = self.attr('index');
+            var id = self.attr('id');
+            var key = index + "-" + id;
+            $.get("/doc/" + index + "/" + id, function(data) {
+                fields = ['245a', '245b', '245c', '260c', '100a', '700a',
+                          '655a', '935b', '020a', '300a', '500a'];
+                for (var i = 0; i < fields.length; i++) {
+                    field = fields[i];
+                    $("#" + key + "-" + field).text(firstvalue(data, field));
+                }
+            })
+        });
+    });
+</script>
+{% endblock %}
