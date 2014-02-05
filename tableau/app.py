@@ -24,7 +24,7 @@ def summary():
 
 @app.route("/search")
 def search():
-    return render_template('index.html', name='search')
+    return render_template('search.html', name='search')
 
 @app.route("/doc/<index>/<id>")
 def doc(index, id):
