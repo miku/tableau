@@ -1,0 +1,14 @@
+Flask==0.10.1
+Jinja2==2.7.2
+MarkupSafe==0.18
+Werkzeug==0.9.4
+argparse==1.2.1
+decorator==3.4.0
+distribute==0.6.34
+elasticsearch==0.4.4
+gunicorn==18.0
+itsdangerous==0.23
+ply==3.4
+six==1.5.2
+urllib3==1.7.1
+wsgiref==0.1.2
