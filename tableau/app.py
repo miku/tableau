@@ -37,7 +37,7 @@ def settings():
     if request.method == 'POST':
         pairs = [tuple(k.split('-')) for k, v in request.form.iteritems() if v == 'on']
         session['pairs'] = pairs
-        return redirect(url_for('hello'))
+        return redirect(url_for('compare'))
 
     with dbopen(SIMDB) as cursor:
         cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
