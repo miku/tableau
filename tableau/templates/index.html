@@ -20,25 +20,27 @@
 </head>
 <body>
 
-
     <div class="row">
         <div class="small-12 large-12 columns">
             <p></p>
             <h3>Dashboard</h3>
+            {% block head %}
             <p>Here you'll find today fuzzy deduplication dataset. In 3 sources,
                 we found 34341 candidates for deduplication. There are 
                 22399 unvoted items. 7000 have been rated positive and 3000
                 negative. You can also access the complete raw data index
                 from here. And you can start various workflows, too.
             </p>
+            {% endblock %}
             <div id="hmenu">
                 <div class="nav">
                     <ul>
-                        <a href="{{ url_for('unrated') }}"><li {% if name == "unrated" %}class="active"{% endif %}>Unrated</li></a>
+                        <!-- <a href="{{ url_for('unrated') }}"><li {% if name == "unrated" %}class="active"{% endif %}>Unrated</li></a>
                         <a href="{{ url_for('rated', v='plus') }}"><li {% if name == "plus" %}class="active"{% endif %}>Positives</li></a>
-                        <a  href="{{ url_for('rated', v='minus') }}"><li {% if name == "minus" %}class="active"{% endif %} >Negatives</li></a>
+                        <a  href="{{ url_for('rated', v='minus') }}"><li {% if name == "minus" %}class="active"{% endif %} >Negatives</li></a>-->
                         <a href="{{ url_for('summary') }}"><li {% if name == "summary" %}class="active"{% endif %} >Summary</li></a>
                         <a href="{{ url_for('search') }}"><li {% if name == "search" %}class="active"{% endif %} >Search</li></a>
+                        <a href="{{ url_for('compare') }}"><li {% if name == "compare" %}class="active"{% endif %} >Compare</li></a>
                     </ul>
                 </div>
             </div>
