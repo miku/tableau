@@ -8,40 +8,43 @@
 {% for result in results %}
     {% set outer_loop = loop %}
     <tr>
-        <td></td>
+        <td><a href="#">Link</a></td>
         <td><strong>{{result[1] | upper }} {{result[2]}}</strong></td>
         <td><strong>{{result[3] | upper }} {{result[4]}}</strong></td>
-        <td></td>
     </tr>
+
     <tr>
-        <td>001</td>
+        <td><span class="hint">001</span></td>
         <td><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id:{{ result[2] }}">{{ result[2] }}</a></td>
         <td><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id:{{ result[4] }}">{{ result[4] }}</a></td>
-        <td rowspan=11 style="color: green; font-weight: bold">Valid</td>
-        <td rowspan=11 style="color: red; font-weight: bold">Invalid</td>
-    </tr>
+     </tr>
 
-    {% for field in ('245a', '245b', '245c', '260c', '100a', '700a', '655a', '935b',
-                     '020a', '300a', '500a') %}
-
-    <tr>
-        <td><span class="hint">{{ field }}</span></td>
-        <td class="field field-{{field}}">
-            <span id="{{ result[1] }}-{{ result[2] }}-{{ outer_loop.index }}-{{field}}" class="{{ field }}"></span>
-        </td>
-        <td class="field field-{{field}}">
-            <span id="{{ result[3] }}-{{ result[4] }}-{{ outer_loop.index }}-{{field}}"
-             class="{{ field }}"></span>
-        </td>
-        <td></td>
-    </tr>
-
+    {% for field in ('245a', '245b', '245c', '260c', '100a',
+                     '700a', '655a', '935b', '020a', '300a', '500a') %}
+        <tr>
+            <td><span class="hint">{{ field }}</span></td>
+            <td class="field field-{{field}}">
+                <span id="{{ result[1] }}-{{ result[2] }}-{{ outer_loop.index }}-{{field}}" class="{{ field }}"></span>
+            </td>
+            <td class="field field-{{field}}">
+                <span id="{{ result[3] }}-{{ result[4] }}-{{ outer_loop.index }}-{{field}}"
+                 class="{{ field }}"></span>
+            </td>
+        </tr>
     {% endfor %}
+
+     <tr style="background: #efefef">
+        <td></td>
+        <td>Similarity scores here</td>
+        <td>
+            <a href="#" class="button secondary success">Correct</a>
+            <a href="#" class="button secondary alert">Nah, not quite</a>
+        </td>
+    </tr>
+
      <tr style="background: #efefef">
         <td class="tdoc" data="{{ outer_loop.index }}" index="{{ result[1] }}" id="{{ result[2] }}"></td>
         <td class="tdoc" data="{{ outer_loop.index }}" index="{{ result[3] }}" id="{{ result[4] }}"></td>
-        <td></td>
-        <td></td>
         <td></td>
     </tr>
 {% endfor %}
