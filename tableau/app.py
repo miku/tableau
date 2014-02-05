@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from config import SIMDB
-from flask import Flask, render_template, redirect, request, url_for, jsonify, Response, send_from_directory
+from flask import Flask, render_template, session, redirect, request, url_for, jsonify, Response, send_from_directory
 from utils import dbopen
 import elasticsearch
 import json
@@ -9,20 +9,7 @@ import os
 import random
 
 app = Flask(__name__)
-
-@app.route('/static/images/bg.jpg')
-def random_background():
-    filename = random.choice(os.listdir('static/images'))
-    print(filename)
-    return send_from_directory('static/images', filename)
-
-@app.route("/unrated")
-def unrated():
-    with dbopen(SIMDB) as cursor:
-        cursor.execute("SELECT * from similarity limit 10")
-        results = cursor.fetchall()
-        print(results[0])
-    return render_template('unrated.html', name='unrated', results=results)
+app.secret_key = 'A0Zr98j/3yXasdsadR~sdgXHH!jmN]LWX/,?RT'
 
 @app.route("/pairs")
 def pairs():
@@ -50,10 +37,34 @@ def doc(index, id):
     source = es.get_source(index=index, id=id)
     return jsonify(source)
 
+@app.route("/settings", methods=['GET', 'POST'])
+def settings():
+    if request.method == 'POST':
+        pairs = [tuple(k.split('-')) for k, v in request.form.iteritems() if v == 'on']
+        session['pairs'] = pairs
+        return redirect(url_for('hello'))
+
+    with dbopen(SIMDB) as cursor:
+        cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
+        results = cursor.fetchall()
+    return render_template('settings.html', results=results)
+
 @app.route("/compare")
 def compare():
+    if not 'pairs' in session or not session['pairs']:
+        with dbopen(SIMDB) as cursor:
+            cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
+            results = cursor.fetchall()
+            session['pairs'] = [tuple(result[:2]) for result in results]
+    # TODO: hello SQLI!
+    filters = ["""(i1 = '{0}' AND i2 = '{1}')""".format(i1, i2)
+               for i1, i2 in session.get('pairs', [])]
+    disjunction = " OR ".join(filters)
+    where_clause = "WHERE {}".format(disjunction) if disjunction else ""
+
     with dbopen(SIMDB) as cursor:
-        cursor.execute("SELECT * from similarity order by RANDOM() limit 1")
+        cursor.execute("""SELECT * FROM similarity
+                          %s ORDER BY RANDOM() LIMIT 1""" % where_clause)
         result = cursor.fetchone()
     return render_template('compare.html', name='compare', result=result)
 
