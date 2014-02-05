@@ -21,8 +21,7 @@
 <body>
 
     <div class="row">
-       {% block head %}
-       {% endblock %}
+        {% block head %}
         <div class="nav">
             <ul>
                 <a href="{{ url_for('summary') }}"><li {% if name == "summary" %}class="active"{% endif %} >Summary</li></a>
@@ -30,6 +29,7 @@
                 <a href="{{ url_for('compare') }}"><li {% if name == "compare" %}class="active"{% endif %} >Compare</li></a>
             </ul>
         </div>
+        {% endblock %}
     </div>
 
     {% block content %}
