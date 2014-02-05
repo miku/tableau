@@ -1,5 +1,5 @@
-html { 
-  background: url(../images/PB_Albertina_Lesesaal.jpg); 
+html {
+  background: url(../images/PB_Albertina_Lesesaal.jpg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -14,7 +14,8 @@ html {
 }
 
 table tr td {
-     padding: 0.5625rem 0.625rem;
+    padding: 0.2rem 0.2rem;
+    /*padding: 0.5625rem 0.625rem;*/
     /*padding: 0.1625rem 0.025rem;*/
 }
 
@@ -80,5 +81,5 @@ a li.active  {
 }
 
 .row {
-    background: #efefef;
+    background: #fff;
 }

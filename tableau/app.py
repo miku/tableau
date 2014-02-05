@@ -6,7 +6,7 @@ import json
 import elasticsearch
 
 app = Flask(__name__)
-SIMDB = "/media/mtc/Data/tasktree-data/f3/similar-db/date-2014-01-28-indices-nep-ebl-bsz-size-5-sources-nep-ebl.db"
+SIMDB = "/Users/tir/tmp/date-2014-01-28-indices-nep-ebl-bsz-size-5-sources-nep-ebl.db"
 
 @app.route("/unrated")
 def unrated():
