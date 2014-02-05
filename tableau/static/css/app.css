@@ -2,27 +2,57 @@ html {
   /*background: url(../images/bg.jpg);*/
   /*background: url(../images//bibliothek-olbdw.jpg);*/
   background: url(../images/Bibliothek-westend-2005-10-27_1.jpg);
-  /*-webkit-background-size: cover;*/
-  /*-moz-background-size: cover;*/
-  /*-o-background-size: cover;*/
-  /*background-size: cover;*/
+  background: url(../images/bibliothek.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-repeat: repeat;
     background-attachment:fixed;
     overflow-y: scroll;
 }
 
-.item {
-    border-bottom: solid thin gray;
+.transparent {
+    /* Required for IE 5, 6, 7 */
+    /* ...or something to trigger hasLayout, like zoom: 1; */
+    width: 100%; 
+        
+    /* Theoretically for IE 8 & 9 (more valid) */   
+    /* ...but not required as filter works too */
+    /* should come BEFORE filter */
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    
+    /* This works in IE 8 & 9 too */
+    /* ... but also 5, 6, 7 */
+    filter: alpha(opacity=95);
+    
+    /* Older than Firefox 0.9 */
+    -moz-opacity:0.95;
+    
+    /* Safari 1.x (pre WebKit!) */
+    -khtml-opacity: 0.95;
+    
+    /* Modern!
+    /* Firefox 0.9+, Safari 2?, Chrome any?
+    /* Opera 9+, IE 9+ */
+    opacity: 0.95;
+}
+
+
+
+.row {
+    background: #fefefe;
 }
 
 .content {
-    padding: 0 10px 0 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /*padding: 0 10px 0 10px;*/
+    color: #565656;
 }
 
-.infotop {
-    margin-top: 10px;
-    padding: 0 10px 0 10px;
-    color: #565656;
+.comment {
+    display: none;
 }
 
 table tr td {
@@ -77,6 +107,9 @@ hr {
     background: #545454
 }
 
+div.nav {
+    margin-top: 0.5em;
+}
 
 div.nav ul {
     background: #efefef;
@@ -87,7 +120,7 @@ div.nav ul {
 div.nav ul li {
     background: #efefef;
     display: inline-block;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 15px 5px 15px;
 }
 
 div.nav ul li:hover {
@@ -98,13 +131,9 @@ div.nav ul li:hover {
 div.nav ul li.active {
     background: #555;
     display: inline-block;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 15px 5px 15px;
 }
 
 a li.active  {
     color: white;
-}
-
-.row {
-    background: #fff;
 }
