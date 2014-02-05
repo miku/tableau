@@ -4,9 +4,9 @@ from flask import Flask, render_template, redirect, request, url_for, jsonify, R
 from utils import dbopen
 import json
 import elasticsearch
+from config import SIMDB
 
 app = Flask(__name__)
-SIMDB = "/Users/tir/tmp/date-2014-01-28-indices-nep-ebl-bsz-size-5-sources-nep-ebl.db"
 
 @app.route("/unrated")
 def unrated():

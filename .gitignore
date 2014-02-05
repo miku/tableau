@@ -1,1 +1,3 @@
 *pyc
+tableau/config.*
+!tableau/config.example.com.py
