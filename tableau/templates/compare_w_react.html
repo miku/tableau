@@ -15,7 +15,14 @@
 
 <script type="text/jsx">
       /** @jsx React.DOM */
-      var ComparisonTable = React.createClass({
+      var CTableRow = React.createClass({
+        render: function() {
+            return (
+                <tr><td>Field</td><td>Value1</td><td>Value2</td></tr>
+            );
+        }
+      });
+      var CTable = React.createClass({
         getInitialState: function() {
             return {leftDoc: {},
                     rightDoc: {}};
@@ -58,8 +65,8 @@
       });
 
       React.renderComponent(
-        <ComparisonTable leftIndex="{{ result[1] }}" leftId="{{ result[2] }}"
-                         rightIndex="{{ result[3] }}" rightId="{{ result[4] }}"/>,
+        <CTable leftIndex="{{ result[1] }}" leftId="{{ result[2] }}"
+                rightIndex="{{ result[3] }}" rightId="{{ result[4] }}"/>,
         document.getElementById('example')
       );
 </script>
