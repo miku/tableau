@@ -5,7 +5,8 @@
 <div class="small-12 large-12 columns">
     
     <div class="content">
-        <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
+        <p>Comparing {{ session.pairs|length }} pair{% if session.pairs|length > 1 %}s{% endif %} (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.
+        </p>
 
     <table>
         <tr>
