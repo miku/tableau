@@ -61,7 +61,9 @@ def compare():
         cursor.execute("""SELECT * FROM similarity
                           %s ORDER BY RANDOM() LIMIT 1""" % where_clause)
         result = cursor.fetchone()
-    return render_template('compare.html', name='compare', result=result)
+    # return render_template('compare.html', name='compare', result=result)
+    return render_template('compare_w_react.html', name='compare', result=result)
+    # return render_template('example.html', name='compare', result=result)
 
 @app.route("/")
 def hello():

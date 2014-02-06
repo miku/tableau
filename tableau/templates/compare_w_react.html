@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="small-12 large-12 columns">
+
+        <div class="content">
+            <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
+
+            <div id="example"></div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/jsx">
+      /** @jsx React.DOM */
+      var ComparisonTable = React.createClass({
+        getInitialState: function() {
+            return {leftDoc: {},
+                    rightDoc: {}};
+        },
+        componentWillMount: function () {
+            // fetch the left document
+            $.ajax({
+                url: '/doc/' + this.props.leftIndex + "/" + this.props.leftId,
+                dataType: 'json',
+                success: function(data) {
+                    this.setState({leftDoc: data['content']});
+                    console.log(data);
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    console.error("comments.json", status, err.toString());
+                }.bind(this)
+            });
+            $.ajax({
+                url: '/doc/' + this.props.rightIndex + "/" + this.props.rightId,
+                dataType: 'json',
+                success: function(data) {
+                    this.setState({rightDoc: data});
+                    console.log(data);
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    console.error("comments.json", status, err.toString());
+                }.bind(this)
+            });
+        },
+        render: function() {
+            return (
+                <div>
+                    <h3>Comparing {this.props.leftIndex}/{this.props.leftId}
+                        and {this.props.rightIndex}/{this.props.rightId}.
+                    </h3>
+                    <p>{this.state.leftDoc['245']}</p>
+                </div>
+            );
+        }
+      });
+
+      React.renderComponent(
+        <ComparisonTable leftIndex="{{ result[1] }}" leftId="{{ result[2] }}"
+                         rightIndex="{{ result[3] }}" rightId="{{ result[4] }}"/>,
+        document.getElementById('example')
+      );
+</script>
+
+
+{% endblock %}
+
