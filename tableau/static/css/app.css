@@ -62,6 +62,7 @@ table tr td {
     /*padding: 0.2rem 0.2rem;*/
     padding: 0.5625rem 0.625rem;
     /*padding: 0.1625rem 0.025rem;*/
+    vertical-align: top;
 }
 
 table {
@@ -139,4 +140,9 @@ div.nav ul li.active {
 
 a li.active  {
     color: white;
+}
+
+table > tbody > tr.comparable > td {
+	/*background: #eeeeee;*/
+	border: solid thin #dddddd;
 }
