@@ -154,3 +154,7 @@ tr.uncomparable > td {
 td.tag {
 	font-weight: bold;
 }
+
+.buttons {
+	text-align: left;
+}
