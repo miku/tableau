@@ -4,6 +4,7 @@ from config import SIMDB
 from crossdomain import crossdomain
 from flask import Flask, render_template, session, redirect, request, url_for, jsonify, Response, send_from_directory
 from utils import dbopen
+from timer import Timer
 import elasticsearch
 import json
 import os
@@ -30,8 +31,10 @@ def search():
 @app.route("/doc/<index>/<id>")
 @crossdomain(origin='*')
 def doc(index, id):
-    es = elasticsearch.Elasticsearch()
-    source = es.get_source(index=index, id=id)
+    with Timer() as timer:
+        es = elasticsearch.Elasticsearch()
+        source = es.get_source(index=index, id=id)
+    app.logger.debug("ES query: %s" % timer.elapsed_s)
     return jsonify(source)
 
 @app.route("/settings", methods=['GET', 'POST'])
@@ -48,21 +51,19 @@ def settings():
 
 @app.route("/compare")
 def compare():
-    if not 'pairs' in session or not session['pairs']:
-        with dbopen(SIMDB) as cursor:
-            cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
-            results = cursor.fetchall()
-            session['pairs'] = [tuple(result[:2]) for result in results]
-    # TODO: hello SQLI!
-    filters = ["""(i1 = '{0}' AND i2 = '{1}')""".format(i1, i2)
-               for i1, i2 in session.get('pairs', [])]
-    disjunction = " OR ".join(filters)
-    where_clause = "WHERE {}".format(disjunction) if disjunction else ""
+    with Timer() as timer:
+        if not 'pairs' in session or not session['pairs']:
+            with dbopen(SIMDB) as cursor:
+                cursor.execute("SELECT distinct i1, i2, count(*) from similarity group by i1, i2")
+                results = cursor.fetchall()
+                session['pairs'] = [tuple(result[:2]) for result in results]
+        # TODO: hello SQLI!
+        filters = ["""(i1 = '{0}' AND i2 = '{1}')""".format(i1, i2)
+                   for i1, i2 in session.get('pairs', [])]
+        disjunction = " OR ".join(filters)
+        where_clause = "WHERE {}".format(disjunction) if disjunction else ""
 
-    with dbopen(SIMDB) as cursor:
-        cursor.execute("""SELECT * FROM similarity
-                          %s ORDER BY RANDOM() LIMIT 1""" % where_clause)
-        result = cursor.fetchone()
+    app.logger.debug("SQL query: %s" % timer.elapsed_s)
     # return render_template('compare.html', name='compare', result=result)
     # return render_template('compare_w_react.html', name='compare', result=result)
     return render_template('example.html', name='compare', result=result)
