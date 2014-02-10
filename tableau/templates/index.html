@@ -17,9 +17,20 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/app.css') }}">
     <script src="{{url_for('static', filename='f/js/vendor/modernizr.js') }}"></script>
 
+    <!-- body content here -->
+    <script src="{{url_for('static', filename='f/js/vendor/jquery.js') }}"></script>
+    <script src="{{url_for('static', filename='f/js/foundation.min.js') }}"></script>
+    <script>
+    $(document).foundation();
+    </script>
+
 {% block js %}
-    <script src="http://fb.me/react-0.8.0.js"></script>
-    <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+	<script src="{{url_for('static', filename='js/react.js') }}"></script>
+	<script src="{{url_for('static', filename='js/JSXTransformer.js') }}"></script>
+	<script src="{{url_for('static', filename='js/underscore.js') }}"></script>
+	<script src="{{url_for('static', filename='js/underscore.string.min.js') }}">
+	</script>
+	<script src="{{url_for('static', filename='js/purl.js') }}"></script>
 {% endblock %}
 
 </head>
@@ -84,11 +95,5 @@
 
 
 
-    <!-- body content here -->
-    <script src="{{url_for('static', filename='f/js/vendor/jquery.js') }}"></script>
-    <script src="{{url_for('static', filename='f/js/foundation.min.js') }}"></script>
-    <script>
-    $(document).foundation();
-    </script>
 </body>
 </html>
