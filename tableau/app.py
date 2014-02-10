@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from config import SIMDB
+from crossdomain import crossdomain
 from flask import Flask, render_template, session, redirect, request, url_for, jsonify, Response, send_from_directory
 from utils import dbopen
 import elasticsearch
@@ -27,6 +28,7 @@ def search():
     return render_template('search.html', name='search')
 
 @app.route("/doc/<index>/<id>")
+@crossdomain(origin='*')
 def doc(index, id):
     es = elasticsearch.Elasticsearch()
     source = es.get_source(index=index, id=id)
