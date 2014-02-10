@@ -146,3 +146,11 @@ table > tbody > tr.comparable > td {
 	/*background: #eeeeee;*/
 	border: solid thin #dddddd;
 }
+
+tr.uncomparable > td {
+	color: #555555;
+}
+
+td.tag {
+	font-weight: bold;
+}
