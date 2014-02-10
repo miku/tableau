@@ -70,9 +70,7 @@ def compare():
         payload = {"left": {"index": result[1], "id": result[2]},
                    "right": {"index": result[3], "id": result[4]}}
     app.logger.debug("SQL query: %s" % timer.elapsed_s)
-    # return render_template('compare.html', name='compare', result=result)
-    return render_template('compare_w_react.html', name='compare', payload=payload)
-    # return render_template('example.html', name='compare', result=result)
+    return render_template('compare.html', name='compare', payload=payload)
 
 @app.route("/")
 def hello():
