@@ -93,12 +93,10 @@
         },
         render: function() {
             var tag = this.props.tag;
-            if (this.props.omitTag) {
-                tag = "";
-            }
-            var comparableRow = (this.props.leftValue !== undefined &&
-                                 this.props.rightValue !== undefined);
-            var comparableClass = comparableRow ? "comparable" : "uncomparable";
+            if (this.props.omitTag) { tag = ""; }
+            var rowIsComparable = (this.props.leftValue !== undefined &&
+                                   this.props.rightValue !== undefined);
+            var comparableClass = rowIsComparable ? "comparable" : "incomparable";
             return (<tr className="field" className={comparableClass}>
                     <td className="tag">{tag}</td>
                     <td>{this.props.code}</td>

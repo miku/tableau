@@ -103,7 +103,7 @@ table > tbody > tr.comparable > td {
     border: solid thin #dddddd;
 }
 
-tr.uncomparable > td {
+tr.incomparable > td {
     color: #555555;
 }
 
