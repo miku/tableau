@@ -1,15 +1,18 @@
 html {
   /*background: url(../images/bg.jpg);*/
   /*background: url(../images//bibliothek-olbdw.jpg);*/
-  background: url(../images/Bibliothek-westend-2005-10-27_1.jpg);
+  /*background: url(../images/Bibliothek-westend-2005-10-27_1.jpg);*/
   /*background: url(../images/bibliothek.jpg);*/
-  -webkit-background-size: cover;
+  /*background: url(../images/green_cup.png);*/
+  background: #eaeaea;
+/*  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-repeat: repeat;
-    background-attachment:fixed;
-    overflow-y: scroll;
+*/
+	/*background-repeat: repeat;*/
+    /*background-attachment:fixed;*/
+    /*overflow-y: scroll;*/
 }
 
 .transparent {
