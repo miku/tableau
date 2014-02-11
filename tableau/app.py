@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 from crossdomain import crossdomain
-from flask import Flask, render_template, session, redirect, request, url_for, jsonify, Response, send_from_directory, abort
+from flask import (Flask, render_template, session, redirect, request, url_for,
+                   jsonify, Response, send_from_directory, abort, flash)
 from utils import dbopen
 from timer import Timer
 from operator import itemgetter
 import config
+import time
 import elasticsearch
 import json
 import os
@@ -48,16 +50,23 @@ NAME_SOURCE_ID_MAP = {
 def ensure_pairs():
     """ Ensure pairs are defined. """
     if not 'pairs' in session or not session['pairs']:
-        with dbopen(config.SIMDB) as cursor:
+        with dbopen(config.SIM_DB) as cursor:
             cursor.execute("""SELECT DISTINCT i1, i2, count(*)
                               FROM similarity group by i1, i2""")
             results = cursor.fetchall()
             session['pairs'] = [tuple(result[:2]) for result in results]
 
 
+@app.context_processor
+def utility_processor():
+    def now():
+        return time.time()
+    return dict(now=now)
+
+
 @app.route("/pairs")
 def pairs():
-    with dbopen(SIMDB) as cursor:
+    with dbopen(SIM_DB) as cursor:
         cursor.execute("""SELECT distinct i1, i2, count(*)
                           FROM similarity GROUP BY i1, i2""")
         results = cursor.fetchall()
@@ -91,7 +100,7 @@ def settings():
         session['pairs'] = pairs
         return redirect(url_for('begin'))
 
-    with dbopen(config.SIMDB) as cursor:
+    with dbopen(config.SIM_DB) as cursor:
         cursor.execute("SELECT DISTINCT i1, i2, count(*) from similarity group by i1, i2")
         results = cursor.fetchall()
     return render_template('settings.html', results=results)
@@ -105,7 +114,7 @@ def begin():
     disjunction = " OR ".join(filters)
     where_clause = "WHERE {}".format(disjunction) if disjunction else ""
 
-    with dbopen(config.SIMDB) as cursor:
+    with dbopen(config.SIM_DB) as cursor:
         cursor.execute("""SELECT * FROM similarity
                           %s ORDER BY RANDOM() LIMIT 1""" % where_clause)
         result = cursor.fetchone()
@@ -113,9 +122,38 @@ def begin():
     right = "%s:%s" % (result[3], result[4])
     return redirect(url_for('compare', left=left, right=right))
 
+@app.route("/initdb")
+def initdb():
+    """ Initialize feedback database. """
+    with dbopen(config.FEEDBACK_DB) as cursor:
+        cursor.execute("""CREATE TABLE IF NOT EXISTS feedback
+                          (i1 TEXT, r1 TEXT, i2 TEXT, r2 TEXT,
+                            vote TEXT, ip TEXT, started REAL, stopped REAL)""")
+    return redirect(url_for('hello'))
+
+
 
 @app.route("/compare")
 def compare():
+    # see if we got feedback
+    feedback = request.args.get('feedback')
+    if feedback:
+        stopped = time.time()
+
+        left, right, vote, started = feedback.split("::", 3)
+        leftIndex, leftId = left.split(":", 1)
+        rightIndex, rightId = right.split(":", 1)
+
+        with dbopen(config.FEEDBACK_DB) as cursor:
+            cursor.execute("""INSERT INTO feedback
+                (i1, r1, i2, r2, vote, ip, started, stopped)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?) """,
+                (leftIndex, leftId, rightIndex, rightId,
+                 vote, request.remote_addr, started, stopped))
+        app.logger.debug("wrote feedback for: %s" % request.args)
+        flash('Thank you. Your feedback has been recorded.')
+        return redirect(url_for('compare', left=request.args.get('left'), right=request.args.get('right')))
+
     try:
         left, right = itemgetter('left', 'right')(request.args)
         leftIndex, leftId = left.split(":", 1)
@@ -136,7 +174,7 @@ def compare():
     disjunction = " OR ".join(filters)
     where_clause = "WHERE {}".format(disjunction) if disjunction else ""
 
-    with dbopen(config.SIMDB) as cursor:
+    with dbopen(config.SIM_DB) as cursor:
         cursor.execute("""SELECT * FROM similarity
                           %s ORDER BY RANDOM() LIMIT 1""" % where_clause)
         result = cursor.fetchone()
