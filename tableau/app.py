@@ -61,7 +61,12 @@ def ensure_pairs():
 def utility_processor():
     def now():
         return time.time()
-    return dict(now=now)
+    def source_id_link(source_id, base='https://katalog.ub.uni-leipzig.de'):
+        return '%s/Search/Results?lookfor=source_id:%s' % (base, source_id)
+    def record_id_link(record_id, base='https://katalog.ub.uni-leipzig.de'):
+        return '%s/Search/Results?lookfor=record_id:%s' % (base, record_id)
+    return dict(now=now, source_id_link=source_id_link,
+                record_id_link=record_id_link)
 
 
 @app.route("/pairs")

@@ -14,24 +14,18 @@
 
             <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
 
-            <h4><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{payload.left.id}}">
-                {{ payload.left.id}}</a> versus
-                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{ payload.right.id }}">
-                    {{ payload.right.id}}</a></h4>
+            <h3>
+                <a href="{{ source_id_link(payload.left.source_id) }}">
+                    {{ payload.left.index|upper }}</a> vs
+                <a href="{{ source_id_link(payload.right.source_id) }}">
+                    {{ payload.right.index|upper }}</a>
+            </h3>
 
             <p>Comparing
-                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{ payload.left.id }}">
-                    {{ payload.left.id}}</a> from
-
-                <strong><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=source_id%3A{{ payload.left.source_id}}">
-                    {{ payload.left.index}}</a></strong> with
-
-                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{ payload.right.id }}">
-                    {{ payload.right.id}}</a> from
-
-                <strong><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=source_id%3A{{ payload.right.source_id}}">
-                    {{ payload.right.index}}</a></strong>.
-
+                <a href="{{ record_id_link(payload.left.id) }}">{{ payload.left.id }}</a> from
+                <strong><a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index }}</a></strong> with
+                <a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> from
+                <strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
             <!-- Comparison table gets attached here -->
             <div id="comparison"></div>
         </div>
