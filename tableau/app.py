@@ -168,7 +168,7 @@ def compare():
             app.logger.error(err)
             abort(500)
         app.logger.debug("wrote feedback for: %s" % request.args)
-        flash('Thank you. Your feedback has been recorded.')
+        flash('Thank you for your vote.')
         return redirect(url_for('compare', left=request.args.get('left'), right=request.args.get('right')))
 
     # count the feedback data points
