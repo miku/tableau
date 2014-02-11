@@ -7,12 +7,14 @@
 
             {% with messages = get_flashed_messages() %}
               {% if messages %}
-                {{ messages|join(" ") }}
+                {{ messages|join(" ") }} <span id="compared">{{ compared }} votes collected.</span>
                 <hr>
               {% endif %}
             {% endwith %}
 
-            <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
+            <p>Comparing {{ session.pairs|length }} source pair{% if session.pairs|length > 1%}s{% endif %}
+                (<a href="{{ url_for('settings') }}">change...</a>).
+            </p>
 
             <h3>
                 <a href="{{ source_id_link(payload.left.source_id) }}">

@@ -137,6 +137,14 @@ def initdb():
     return redirect(url_for('hello'))
 
 
+@app.route("/compared")
+@crossdomain(origin='*')
+def compared():
+    with dbopen(config.FEEDBACK_DB) as cursor:
+        cursor.execute("""SELECT COUNT(*) FROM feedback""")
+        result = cursor.fetchone()
+    return jsonify(compared=result[0])
+
 
 @app.route("/compare")
 def compare():
@@ -158,6 +166,12 @@ def compare():
         app.logger.debug("wrote feedback for: %s" % request.args)
         flash('Thank you. Your feedback has been recorded.')
         return redirect(url_for('compare', left=request.args.get('left'), right=request.args.get('right')))
+
+    # count the feedback data points
+    with dbopen(config.FEEDBACK_DB) as cursor:
+        cursor.execute("""SELECT COUNT(*) FROM feedback""")
+        result = cursor.fetchone()
+    compared = result[0]
 
     try:
         left, right = itemgetter('left', 'right')(request.args)
@@ -188,7 +202,7 @@ def compare():
     next_pair = {'left': left, 'right': right}
 
     return render_template('compare.html', name='compare', payload=payload,
-                           next_pair=next_pair)
+                           next_pair=next_pair, compared=compared)
 
 
 @app.route("/")
