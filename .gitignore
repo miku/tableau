@@ -1,3 +1,4 @@
 *pyc
 tableau/config.*
 !tableau/config.example.com.py
+tableau/static/jsx/build
