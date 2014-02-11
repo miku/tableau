@@ -3,23 +3,38 @@
 {% block content %}
 <div class="row">
     <div class="small-12 large-12 columns">
-
         <div class="content">
             <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
 
-            <h4>{{ payload.left.id}} versus {{ payload.right.id}}</h4>
+            <h4><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{payload.left.id}}">
+                {{ payload.left.id}}</a> versus
+                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{ payload.right.id }}">
+                    {{ payload.right.id}}</a></h4>
+
+            <p>Comparing
+                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{ payload.left.id }}">
+                    {{ payload.left.id}}</a> from
+
+                <strong><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=source_id%3A{{ payload.left.source_id}}">
+                    {{ payload.left.index}}</a></strong> with
+
+                <a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{ payload.right.id }}">
+                    {{ payload.right.id}}</a> from
+
+                <strong><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=source_id%3A{{ payload.right.source_id}}">
+                    {{ payload.right.index}}</a></strong>.
+
             <div id="comparison"></div>
         </div>
 
         <div class="buttons">
-        <a href="{{ url_for('compare') }}"
-        class="button radius secondary success">OK</a>
-        <a href="{{ url_for('compare') }}"
-        class="button radius secondary alert">No</a>
-        <a href="{{ url_for('compare') }}"
-        class="button radius secondary">Skip</a>
-    </div>
-
+            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right) }}"
+                class="button radius secondary success">OK</a>
+            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right) }}"
+                class="button radius secondary alert">No</a>
+            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right) }}"
+                class="button radius secondary">Skip</a>
+        </div>
     </div>
 </div>
 
@@ -239,7 +254,7 @@
                                            record: data}});
                 },
                 error: function(xhr, status, err) {
-                    console.error(err);
+                    console.error(xhr, status, err);
                 }
             });
 
@@ -251,13 +266,15 @@
                                             record: data}});
                 },
                 error: function(xhr, status, err) {
-                    console.error(err);
+                    console.error(xhr, status, err);
                 }
             });
         },
         render: function() {
-            if (_.isEmpty(this.state.left) || _.isEmpty(this.state.right)) {
-                return (<div><p>Loading...</p></div>);
+            if (_.isEmpty(this.state.left) && _.isEmpty(this.state.right)) {
+                return (<div><p>Loading two documents...</p></div>);
+            } else if (_.isEmpty(this.state.left) || _.isEmpty(this.state.right)) {
+                return (<div><p>Loaded one documents, one to go...</p></div>);
             } else {
                 return (<div><ComparisonTable left={this.state.left}
                                               right={this.state.right} /></div>);
@@ -266,7 +283,7 @@
     });
 
 React.renderComponent(
-    <Comparison base="http://139.18.19.111:5000/doc"
+    <Comparison base="{{ payload.base }}"
                 left="{{ payload.left.index }}://{{ payload.left.id }}"
                 right="{{ payload.right.index }}://{{ payload.right.id }}" />,
     document.getElementById("comparison"));
