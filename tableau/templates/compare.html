@@ -4,6 +4,14 @@
 <div class="row">
     <div class="small-12 large-12 columns">
         <div class="content">
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {{ messages|join(" ") }}
+                <hr>
+              {% endif %}
+            {% endwith %}
+
             <p>Comparing {{ session.pairs|length }} sources (<a href="{{ url_for('settings') }}">change...</a>). Reviewed <a href="#">102 pairs</a>.</p>
 
             <h4><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=record_id%3A{{payload.left.id}}">
@@ -24,15 +32,28 @@
                 <strong><a href="https://katalog.ub.uni-leipzig.de/Search/Results?lookfor=source_id%3A{{ payload.right.source_id}}">
                     {{ payload.right.index}}</a></strong>.
 
+            <!-- Comparison table gets attached here -->
             <div id="comparison"></div>
         </div>
 
+
         <div class="buttons">
-            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right) }}"
+            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
+                                           feedback='%s:%s::%s:%s::OK::%s' % (
+                                                payload.left.index, payload.left.id,
+                                                payload.right.index, payload.right.id, now())) }}"
                 class="button radius secondary success">OK</a>
-            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right) }}"
+
+            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
+                                           feedback='%s:%s::%s:%s::NO::%s' % (
+                                                payload.left.index, payload.left.id,
+                                                payload.right.index, payload.right.id, now())) }}"
                 class="button radius secondary alert">No</a>
-            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right) }}"
+
+            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
+                                           feedback='%s:%s::%s:%s::SKIP::%s' % (
+                                                payload.left.index, payload.left.id,
+                                                payload.right.index, payload.right.id, now())) }}"
                 class="button radius secondary">Skip</a>
         </div>
     </div>
