@@ -151,18 +151,22 @@ def compare():
     # see if we got feedback
     feedback = request.args.get('feedback')
     if feedback:
-        stopped = time.time()
+        try:
+            stopped = time.time()
 
-        left, right, vote, started = feedback.split("::", 3)
-        leftIndex, leftId = left.split(":", 1)
-        rightIndex, rightId = right.split(":", 1)
+            left, right, vote, started = feedback.split("::", 3)
+            leftIndex, leftId = left.split(":", 1)
+            rightIndex, rightId = right.split(":", 1)
 
-        with dbopen(config.FEEDBACK_DB) as cursor:
-            cursor.execute("""INSERT INTO feedback
-                (i1, r1, i2, r2, vote, ip, started, stopped)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?) """,
-                (leftIndex, leftId, rightIndex, rightId,
-                 vote, request.remote_addr, started, stopped))
+            with dbopen(config.FEEDBACK_DB) as cursor:
+                cursor.execute("""INSERT INTO feedback
+                    (i1, r1, i2, r2, vote, ip, started, stopped)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?) """,
+                    (leftIndex, leftId, rightIndex, rightId,
+                     vote, request.remote_addr, started, stopped))
+        except Exception as err:
+            app.logger.error(err)
+            abort(500)
         app.logger.debug("wrote feedback for: %s" % request.args)
         flash('Thank you. Your feedback has been recorded.')
         return redirect(url_for('compare', left=request.args.get('left'), right=request.args.get('right')))
