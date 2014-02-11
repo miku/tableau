@@ -177,6 +177,7 @@ def compare():
         result = cursor.fetchone()
     compared = result[0]
 
+    # request argument spelunking
     try:
         left, right = itemgetter('left', 'right')(request.args)
         leftIndex, leftId = left.split(":", 1)
