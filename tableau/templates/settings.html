@@ -15,8 +15,8 @@
             <li>
                 <input name="{{ result[0] }}-{{ result[1] }}" id="{{ result[0] }}-{{ result[1] }}" type="checkbox"
                 {% if result[:2] in session.pairs %}checked="on"{% endif %}/>
-                <label for="{{ result[0] }}-{{ result[1] }}"><strong>{{ result[0] }}</strong> vs
-                    <strong>{{ result[1] }}</strong> {{ result[2] }}</label>
+                <label for="{{ result[0] }}-{{ result[1] }}"><strong>{{ result[0]|upper }}</strong> vs
+                    <strong>{{ result[1]|upper }}</strong> {{ result[2] }}</label>
             </li>
         {% endfor %}
     </ul>
