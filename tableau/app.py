@@ -186,27 +186,6 @@ def compare():
                            next_pair=next_pair)
 
 
-@app.route("/compare_old")
-def compare2():
-    filters = ["""(i1 = '{0}' AND i2 = '{1}')""".format(i1, i2)
-               for i1, i2 in session.get('pairs', [])]
-    disjunction = " OR ".join(filters)
-    where_clause = "WHERE {}".format(disjunction) if disjunction else ""
-
-    with dbopen(config.SIMDB) as cursor:
-        cursor.execute("""SELECT * FROM similarity
-                          %s ORDER BY RANDOM() LIMIT 1""" % where_clause)
-        result = cursor.fetchone()
-
-    payload = {"left": {"index": result[1], "id": result[2],
-                        "source_id": NAME_SOURCE_ID_MAP.get(result[1],
-                                    "an unknown source")},
-               "right": {"index": result[3], "id": result[4],
-                         "source_id": NAME_SOURCE_ID_MAP.get(result[3],
-                                        "an unknown source")},
-               "base": config.BASE}
-    return render_template('compare.html', name='compare', payload=payload)
-
 @app.route("/")
 def hello():
     return redirect(url_for('summary'))
