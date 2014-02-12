@@ -28,9 +28,14 @@
                 <strong><a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index }}</a></strong> with
                 <a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> from
                 <strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
-            <!-- Comparison table gets attached here -->
-            <div id="comparison"></div>
-        </div>
+            </p>
+            <p>
+                Please click <strong><span class="vote-ok">OK</span></strong>, if the two record represent the same item.
+                Click <strong><span class="vote-no">NO</span></strong>
+                if the two records differ significantly, e.g. in title, edition or in some other aspect.
+                Click <strong><span class="vote-skip">SKIP</span></strong>, if you are unsure.
+                <em>[TODO: INSERT CLEARER INSTRUCTIONS HERE]</em>.
+            </p>
 
 
         <div class="buttons">
@@ -44,13 +49,17 @@
                                            feedback='%s:%s::%s:%s::NO::%s' % (
                                                 payload.left.index, payload.left.id,
                                                 payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary alert">No</a>
+                class="button radius secondary alert">NO</a>
 
             <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
                                            feedback='%s:%s::%s:%s::SKIP::%s' % (
                                                 payload.left.index, payload.left.id,
                                                 payload.right.index, payload.right.id, now())) }}"
                 class="button radius secondary">Skip</a>
+        </div>
+
+            <!-- Comparison table gets attached here -->
+            <div id="comparison"></div>
         </div>
     </div>
 </div>
