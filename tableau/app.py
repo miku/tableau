@@ -80,7 +80,24 @@ def pairs():
 
 @app.route("/summary")
 def summary():
-    return render_template('index.html', name='summary')
+    # votes collected
+    with dbopen(config.FEEDBACK_DB) as cursor:
+        cursor.execute("""SELECT vote, COUNT(*) FROM feedback group by vote""")
+        result = cursor.fetchall()
+        groups = {vote: count for vote, count in result}
+
+        cursor.execute("""SELECT COUNT(*) FROM feedback""")
+        result = cursor.fetchone()
+        votes = {'total': result[0], 'groups': groups}
+
+    # current source in SIM_DB
+    with dbopen(config.SIM_DB) as cursor:
+        cursor.execute("SELECT DISTINCT i1, i2, count(*) as c from similarity group by i1, i2")
+        results = cursor.fetchall()
+        sources = [(i1.upper(), i2.upper(), count, (i1, i2) in session['pairs'])
+                   for i1, i2, count in results]
+
+    return render_template('summary.html', name='summary', votes=votes, sources=sources)
 
 
 @app.route("/search")

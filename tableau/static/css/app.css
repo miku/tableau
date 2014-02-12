@@ -114,3 +114,21 @@ td.tag {
 .buttons {
     text-align: left;
 }
+
+th {
+    font-weight: bold;
+}
+
+
+.vote-ok {
+    color: green;
+}
+.vote-no {
+    color: red;
+}
+.vote-skip {
+    color: gray;
+}
+.vote-total {
+    font-weight: bold;
+}

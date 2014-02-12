@@ -1,0 +1,42 @@
+
+{% extends "index.html" %}
+
+    {% block content %}
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="content">
+                <h4>Data sources</h4>
+
+                <p>You can <a href="{{ url_for('settings') }}">adjust the data sources to consider</a> for this session.
+
+                <table>
+                    <tr><th>Data source</th><th>Data source</th><th>Number of deduplication candidates</th><th>Enabled</th></tr>
+                {% for i1, i2, count, enabled in sources|sort %}
+                    <tr><td>{{ i1 }}</td><td>{{ i2 }}</td><td>{{ count }}</td><td>{% if enabled %}yes {% else %} no {% endif %} </td></tr>
+                {% endfor %}
+                </table>
+
+
+                <h4>Feedback</h4>
+                <table>
+                    <tr><th>Vote type</th><th>Count</th></tr>
+                {% for vote, count in votes.groups.iteritems() %}
+                    <tr><td class="vote-{{vote|lower}}">{{ vote }}</td><td>{{ count }}</td></tr>
+                {% endfor %}
+                    <tr class="vote-total"><td>Total</td><td>{{ votes.total }}</td></tr>
+                </table>
+
+                <h4>Mode of operation</h4>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+    {% endblock %}
