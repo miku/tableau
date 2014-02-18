@@ -113,25 +113,13 @@ def search():
             joined = [item for sublist in results for item in sublist]
 
         es = elasticsearch.Elasticsearch()
-        # result = es.search(index=['bsz', 'nep', 'ebl'], body={'query': {
-        #     'filtered': {'filter': {'ids': {'values': joined}}},
-        #     'query': {'query_string': {'query': 'holocaust'}}
-        # }}, size=5)
-
-        # result = es.search(index=['bsz', 'nep', 'ebl'], body={'query': {'query_string': {'query': 'holocaust'}}}, size=5)
-
-        # result = es.search(index=['bsz', 'nep', 'ebl'], body={'query': {
-        #     'filtered': {'filter': {'ids': {'values': joined}}}
-        # }}, size=5)
 
         result = es.search(index=['bsz', 'nep', 'ebl'], body={'query': {
-            'constant_score': {'filter': {'and': [{'ids': {'values': joined}},
-                                                  {'query': {'query_string': {'query': 'elevation'}}}]
-        }}}}, size=10)
-
-        # print(result['hits']['total'])
+            'constant_score': {'filter': {'and':
+            	[{'ids': {'values': joined}},
+                 {'query': {'query_string': {'query': 'elevation'}}}]}}}},
+                 size=10)
         hits = result['hits']['hits']
-        # print(hits)
     return render_template('search.html', name='search', hits=hits)
 
 
