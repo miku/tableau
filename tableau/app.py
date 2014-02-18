@@ -83,6 +83,28 @@ def utility_processor():
     return dict(now=now, source_id_link=source_id_link,
                 record_id_link=record_id_link)
 
+@app.route("/sample")
+def sample():
+    es = elasticsearch.Elasticsearch()
+    stats = es.indices.stats()
+    counter = collections.Counter()
+    for key, value in stats.get('indices').iteritems():
+        count = value.get('primaries').get('docs').get('count')
+        counter[key] = count
+
+    return render_template('sample.html', name='sample', counter=counter)
+
+
+@app.route("/count")
+def count():
+    es = elasticsearch.Elasticsearch()
+    stats = es.indices.stats()
+    counter = collections.Counter()
+    for key, value in stats.get('indices').iteritems():
+        count = value.get('primaries').get('docs').get('count')
+        counter[key] = count
+    return Response(json.dumps(counter.most_common()), mimetype="application/json")
+
 
 @app.route("/pairs")
 def pairs():
