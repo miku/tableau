@@ -131,7 +131,7 @@ def search():
 
         result = es.search(index=['bsz', 'nep', 'ebl'], body={'query': {
             'constant_score': {'filter': {'and':
-            	[{'ids': {'values': joined}},
+                [{'ids': {'values': joined}},
                  {'query': {'query_string': {'query': 'elevation'}}}]}}}},
                  size=10)
         hits = result['hits']['hits']
@@ -215,9 +215,12 @@ def compare():
         except Exception as err:
             app.logger.error(err)
             abort(500)
-        app.logger.debug("wrote feedback for: %s" % request.args)
-        flash('Thank you for your vote.')
-        return redirect(url_for('compare', left=request.args.get('left'), right=request.args.get('right')))
+        else:
+            app.logger.debug("Wrote feedback for: %s" % request.args)
+            flash('Thank you for your vote.')
+            # show the next comparison ...
+            return redirect(url_for('compare', left=request.args.get('left'),
+                                               right=request.args.get('right')))
 
     # count the feedback data points
     with dbopen(config.FEEDBACK_DB) as cursor:
