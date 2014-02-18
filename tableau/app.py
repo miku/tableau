@@ -6,6 +6,7 @@ from flask import (Flask, render_template, session, redirect, request, url_for,
 from utils import dbopen
 from timer import Timer
 from operator import itemgetter
+import collections
 import config
 import time
 import elasticsearch
@@ -45,6 +46,20 @@ NAME_SOURCE_ID_MAP = {
     'doab': 26,
     'doaj': 28,
 }
+
+def parse_feedback_string(feedback):
+    """
+    # feedback url: left::right::vote::started, e.g.
+    # nep:21321938::ebl:12319898::OK::12312318239.12
+    """
+    Feedback = collections.namedtuple('Feedback', ['leftIndex', 'leftId',
+                                                   'rightIndex', 'rightId', 'vote',
+                                                   'started'])
+    left, right, vote, started = feedback.split("::", 3)
+    leftIndex, leftId = left.split(":", 1)
+    rightIndex, rightId = right.split(":", 1)
+    return Feedback(leftIndex, leftId, rightIndex, rightId, vote, started)
+
 
 @app.before_request
 def ensure_pairs():
@@ -184,21 +199,19 @@ def compared():
 @app.route("/compare")
 def compare():
     # see if we got feedback
-    feedback = request.args.get('feedback')
-    if feedback:
+    feedback_arg = request.args.get('feedback')
+    if feedback_arg:
         try:
             stopped = time.time()
-
-            left, right, vote, started = feedback.split("::", 3)
-            leftIndex, leftId = left.split(":", 1)
-            rightIndex, rightId = right.split(":", 1)
-
+            feedback = parse_feedback_string(feedback_arg)
             with dbopen(config.FEEDBACK_DB) as cursor:
                 cursor.execute("""INSERT INTO feedback
                     (i1, r1, i2, r2, vote, ip, started, stopped)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?) """,
-                    (leftIndex, leftId, rightIndex, rightId,
-                     vote, request.remote_addr, started, stopped))
+                    (feedback.leftIndex, feedback.leftId,
+                     feedback.rightIndex, feedback.rightId,
+                     feedback.vote, request.remote_addr,
+                     feedback.started, stopped))
         except Exception as err:
             app.logger.error(err)
             abort(500)
