@@ -39,11 +39,61 @@
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
  -->
 
- 				<h4>Kontakt</h4>
+                <h4>Vorgehensweise</h4>
 
- 				<p>Fragen und Anregungen bitte an das Finc Team:
- 					<a href="mailto:team@finc.info">team@finc.info</a>.
- 				</p>
+                <p>
+                    In der unscharfen Deduplizierung geht es um das Auffinden
+                    von ähnlichen Titeln, die jedoch keinen Identifier teilen.
+                    Der Prozess läuft im Moment in groben Zügen wie folgt ab:
+
+                    <ol>
+                        <li>Für die Quellen BSZ, EBL und NEP werden mit Hilfe von
+                            Suchmaschinentechnologie anhand des Titels und des Untertitels
+                            ähnliche Titel ermittelt. In diesem Schritt sind noch
+                            mehrere hunderttausend Kandidaten im Rennen.
+                        </li>
+                        <li>Mit einem <a href="http://de.wikipedia.org/wiki/N-Gramm">N-Gramm</a>
+                            Vergleich werden die ähnlichen noch einmal miteinander
+                            verglichen (Titel, Untertitel, Autoren und weitere Autoren).
+                            Datensätze, die in Ihrer Ähnlichkeit unter bestimmten
+                            Schwellwerten liegen, werden aussortiert. Hier bleiben nur noch einige zehntausend Titel übrig.
+
+                        </li>
+                        <li>In einem weiteren Schritt werden die Editionsangaben - soweit vorhanden -
+                            verglichen. Scheinen die Editionsangaben nicht übereinzustimmen,
+                            wird davon ausgegangen, daß es sich tatsächlich um zwei verschiedene
+                            Ausgaben handelt. Nach diesem Schritt bleiben knapp
+                            zehntausend Titelsätze übrig.
+                        </li>
+                        <li>
+                            Was nach diesem dreistufigen maschinellen Prozess
+                            an Titeln übrigbleibt, dient als Datengrundlage für diese Seite. In einem letzten
+                            Schritt möchten wir gern von Bibliothekarinnen und Bibliothekaren
+                            erfahren, ob die zwei Titeldatensätze sich tatsächlich auf ein
+                            und dasselbe Werk beziehen. Nutzen Sie dazu bitten das Tab <a href="{{ url_for('begin') }}">Vergleich</a>.
+                            Vielen Dank!
+                        </li>
+                    </ol>
+</p>
+
+    <h4>Hinweise</h4>
+<p>
+
+                    <ul style="list-style-type: square">
+                        <li>Ihr Webbrowser muss Javascript unterstützen und erlauben.</li>
+                        <li>Die Auswahl der Vergleiche ist zufällig. </li>
+                        <li>Sie können jederzeit aufhören oder anfangen.</li>
+                        <li>Sie können die URL eines Vergleiches bookmarken und später zu einem Titel zurückkehren oder den Link per E-Mail versenden.</li>
+                        <li>Die Oberfläche ist mobile-fähig, Sie können die Seite mit Ihrem Smartphone oder Tablet nutzen.</li>
+                        <li>Einmal abgegebene Stimmen können nicht zurückgenommen werden. Sie können aber zurückgehen (Zurück im Browser) und ein anderes Votum abgeben.</li>
+                    </ul>
+                </p>
+
+                <h4>Kontakt</h4>
+
+                <p>Fragen und Anregungen bitte an das Finc Team:
+                    <a href="mailto:team@finc.info">team@finc.info</a>.
+                </p>
 
             </div>
         </div>
