@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding: utf-8
 
 from crossdomain import crossdomain
 from flask import (Flask, render_template, session, redirect, request, url_for,
@@ -239,7 +240,7 @@ def compare():
             abort(500)
         else:
             app.logger.debug("Wrote feedback for: %s" % request.args)
-            flash('Thank you for your vote.')
+            flash(u'Vielen Dank für Ihr Votum.')
             # show the next comparison ...
             return redirect(url_for('compare', left=request.args.get('left'),
                                                right=request.args.get('right')))

@@ -7,13 +7,13 @@
 
             {% with messages = get_flashed_messages() %}
               {% if messages %}
-                {{ messages|join(" ") }} <span id="compared">{{ compared }} votes collected.</span>
+                {{ messages|join(" ") }} <span id="compared">{{ compared }} Stimmen gesammelt.</span>
                 <hr>
               {% endif %}
             {% endwith %}
 
-            <p>Comparing {{ session.pairs|length }} source pair{% if session.pairs|length > 1%}s{% endif %}
-                (<a href="{{ url_for('settings') }}">change...</a>).
+            <p>Vergleiche {{ session.pairs|length }} Quellenpaar{% if session.pairs|length > 1%}e{% endif %}
+                (<a href="{{ url_for('settings') }}">ändern...</a>).
             </p>
 
             <h3>
@@ -23,18 +23,19 @@
                     {{ payload.right.index|upper }}</a>
             </h3>
 
-            <p>Comparing
-                <a href="{{ record_id_link(payload.left.id) }}">{{ payload.left.id }}</a> from
-                <strong><a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index }}</a></strong> with
-                <a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> from
+            <p>Vergleiche
+                <a href="{{ record_id_link(payload.left.id) }}">{{ payload.left.id }}</a> aus
+                <strong><a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index }}</a></strong> mit
+                <a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> aus
                 <strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
             </p>
             <p>
-                Please click <strong><span class="vote-ok">OK</span></strong>, if the two record represent the same item.
-                Click <strong><span class="vote-no">NO</span></strong>
-                if the two records differ significantly, e.g. in title, edition or in some other aspect.
-                Click <strong><span class="vote-skip">SKIP</span></strong>, if you are unsure.
-                <em>[TODO: INSERT CLEARER INSTRUCTIONS HERE]</em>.
+                Bitte klicken Sie <strong><span class="vote-ok">OK</span></strong>, wenn Sie glauben, die beide Records
+                repräsentieren das gleiche Medium.
+                Klicken Sie bitte <strong><span class="vote-no">NO</span></strong>, wenn Sie glauben, daß die
+                beiden Records sich auf unterschiedliche Medien beziehen.
+                Klicken Sie bitte <strong><span class="vote-skip">SKIP</span></strong>, wenn Sie kein Urteil abgeben möchten.
+
             </p>
 
 
@@ -244,7 +245,7 @@ var ComparisonTable = React.createClass({displayName: 'ComparisonTable',
                 }
             }
         });
-var linkText = this.state.expanded ? "Fewer Details" : "More Details";
+var linkText = this.state.expanded ? "Weniger Details" : "Mehr Details";
 rows.push(React.DOM.tr(null,
     React.DOM.td( {colSpan:"4"}, React.DOM.a( {onClick:this.handleClick,
     href:"#"}, linkText) )));
