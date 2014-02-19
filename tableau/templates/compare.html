@@ -30,13 +30,18 @@
                 <strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
             </p>
             <p>
-                Bitte klicken Sie <strong><span class="vote-ok">OK</span></strong>, wenn Sie glauben, die beide Records
-                repräsentieren das gleiche Medium.
-                Klicken Sie bitte <strong><span class="vote-no">NO</span></strong>, wenn Sie glauben, daß die
+                Bitte klicken Sie <strong><span class="vote-ok">Ja</span></strong>, wenn Sie glauben, die beide Records
+                repräsentieren das gleiche Werk.
+                Klicken Sie bitte <strong><span class="vote-no">Nein</span></strong>, wenn Sie glauben, daß die
                 beiden Records sich auf unterschiedliche Medien beziehen.
-                Klicken Sie bitte <strong><span class="vote-skip">SKIP</span></strong>, wenn Sie kein Urteil abgeben möchten.
+                Klicken Sie bitte <strong><span class="vote-skip">Überspringen</span></strong>, wenn Sie kein Urteil abgeben möchten.
 
             </p>
+
+            <hr>
+
+        <h5>Handelt es sich bei den beiden Titeln um ein Duplikat?</h5>
+
 
 
         <div class="buttons">
@@ -44,19 +49,19 @@
                                            feedback='%s:%s::%s:%s::OK::%s' % (
                                                 payload.left.index, payload.left.id,
                                                 payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary success">OK</a>
+                class="button radius secondary success">Ja</a>
 
             <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
                                            feedback='%s:%s::%s:%s::NO::%s' % (
                                                 payload.left.index, payload.left.id,
                                                 payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary alert">NO</a>
+                class="button radius secondary alert">Nein</a>
 
             <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
                                            feedback='%s:%s::%s:%s::SKIP::%s' % (
                                                 payload.left.index, payload.left.id,
                                                 payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary">Skip</a>
+                class="button radius secondary">Überspringen</a>
         </div>
 
             <!-- Comparison table gets attached here -->
