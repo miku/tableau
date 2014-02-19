@@ -44,7 +44,9 @@
         <div class="nav">
             <ul>
                 <a href="{{ url_for('summary') }}"><li {% if name == "summary" %}class="active"{% endif %} >Summary</li></a>
-                <a href="{{ url_for('search') }}"><li {% if name == "search" %}class="active"{% endif %} >Search</li></a>
+
+<!--                 <a href="{{ url_for('search') }}"><li {% if name == "search" %}class="active"{% endif %} >Search</li></a>
+ -->
                 <a href="{{ url_for('begin') }}"><li {% if name == "compare" %}class="active"{% endif %} >Compare</li></a>
             </ul>
         </div>
