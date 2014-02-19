@@ -4,6 +4,7 @@
 from crossdomain import crossdomain
 from flask import (Flask, render_template, session, redirect, request, url_for,
                    jsonify, Response, send_from_directory, abort, flash)
+from werkzeug.wsgi import DispatcherMiddleware
 from utils import dbopen
 from timer import Timer
 from operator import itemgetter
@@ -17,6 +18,10 @@ import random
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yXasdsadR~sdgXHH!jmN]LWX/,?RT'
+
+dispatcher = DispatcherMiddleware(app, {
+    '/deduplication':     app
+})
 
 
 NAME_SOURCE_ID_MAP = {
@@ -289,4 +294,5 @@ def hello():
     return redirect(url_for('summary'))
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    # app.run(debug=True, host="0.0.0.0")
+    dispatcher.run(debug=True, host="0.0.0.0")
