@@ -17,7 +17,7 @@ import os
 import random
 
 app = Flask(__name__)
-app.secret_key = 'A0Zr98j/3yXasdsadR~sdgXHH!jmN]LWX/,?RT'
+app.secret_key = 'SomeSecretKey'
 
 dispatcher = DispatcherMiddleware(app, {
     '/deduplication':     app
