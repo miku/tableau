@@ -40,7 +40,7 @@
 
             <hr>
 
-        <h5>Handelt es sich bei den beiden Titeln um ein Duplikat?</h5>
+        <p>Handelt es sich bei den beiden Titeln um ein Duplikat?</p>
 
 
 
@@ -305,7 +305,7 @@ var Comparison = React.createClass({displayName: 'Comparison',
         if (_.isEmpty(this.state.left) && _.isEmpty(this.state.right)) {
             return (React.DOM.div(null, React.DOM.p(null, React.DOM.img( {src:"{{ url_for('static', filename='images/ajax-loader.gif')}}"} ), " – Loading two documents...")));
         } else if (_.isEmpty(this.state.left) || _.isEmpty(this.state.right)) {
-            return (React.DOM.div(null, React.DOM.p(null, React.DOM.img( {src:"{{ url_for('static', filename='images/ajax-loader.gif')}}"} ), " – Loaded one documents, one to go...")));
+            return (React.DOM.div(null, React.DOM.p(null, React.DOM.img( {src:"{{ url_for('static', filename='images/ajax-loader.gif')}}"} ), " – Loaded one document, one to go...")));
         } else {
             return (React.DOM.div(null, ComparisonTable( {left:this.state.left,
                 right:this.state.right} )));
