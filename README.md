@@ -23,6 +23,24 @@ Build and run
                             --error-logfile ~/log/tableau-error.log \
                             --workers 4 --bind "0.0.0.0:5000" tableau.app:app
 
+
+Develop the React.js component
+------------------------------
+
+The JSX component for the comparison table is located under
+`tableau/static/jsx/src/comparison.js`.
+
+You can compile the JSX (recommended for production) via
+
+    $ make compile-jsx
+
+To copy `comparison.js` from `tableau/static/jsx/build/comparison.js`
+to `tableau/temüplates/comparison.js` use
+
+    $ make copy-jsx
+
+
+
 Screenshot
 ----------
 
