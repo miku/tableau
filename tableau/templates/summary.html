@@ -7,23 +7,34 @@
             <div class="content">
                 <h4>Datenquellen</h4>
 
-                <p>Sie können die <a href="{{ url_for('settings') }}">Datenquellen anpassen</a>, die Sie in dieser Session vergleichen möchen.
+                <p>Sie können die <a href="{{ url_for('settings') }}">Datenquellen anpassen</a>,
+                    die Sie in dieser Session vergleichen möchen.
 
                 <table>
                     <tr><th>Quelle</th><th>Quelle</th><th>Kandidaten</th><th>Aktiviert für diese Session</th></tr>
                 {% for i1, i2, count, enabled in sources|sort %}
-                    <tr><td>{{ i1 }}</td><td>{{ i2 }}</td><td>{{ count }}</td><td>{% if enabled %}ja {% else %} nein {% endif %} </td></tr>
+                    <tr>
+                        <td>{{ i1 }}</td>
+                        <td>{{ i2 }}</td>
+                        <td>{{ count }}</td>
+                        <td>{% if enabled %}ja {% else %} nein {% endif %} </td>
+                    </tr>
                 {% endfor %}
                 </table>
-
 
                 <h4>Feedback</h4>
                 <table>
                     <tr><th>Typ</th><th>Anzahl</th></tr>
                 {% for vote, count in votes.groups.iteritems() %}
-                    <tr><td class="vote-{{vote|lower}}">{{ vote }}</td><td>{{ count }}</td></tr>
+                    <tr>
+                        <td class="vote-{{vote|lower}}">{{ vote }}</td>
+                        <td>{{ count }}</td>
+                    </tr>
                 {% endfor %}
-                    <tr class="vote-total"><td>Total</td><td>{{ votes.total }}</td></tr>
+                    <tr class="vote-total">
+                        <td>Total</td>
+                        <td>{{ votes.total }}</td>
+                    </tr>
                 </table>
 
                 <h4>Vorgehensweise</h4>
@@ -66,24 +77,23 @@
                     </ol>
 </p>
 
-    <h4>Hinweise</h4>
+<h4>Hinweise</h4>
+
 <p>
+<ul style="list-style-type: square">
+    <noscript>
+        <li<span class="warning">Ihr Webbrowser muss Javascript unterstützen und erlauben.</span></li>
+    </noscript>
+    <li>Die Auswahl der Vergleiche ist zufällig. </li>
+    <li>Sie können jederzeit aufhören oder anfangen.</li>
+    <li>Sie können die URL eines Vergleiches bookmarken und später zu einem Titel zurückkehren oder den Link per E-Mail versenden.</li>
+    <li>Diese Seite unterstützt mobile Endgeräte; Sie können diese Seite mit Ihrem Tablet oder Smartphone nutzen.</li>
+    <li>Einmal abgegebene Stimmen können nicht zurückgenommen werden. Sie können aber zurückgehen (Zurück im Browser) und ein anderes Votum abgeben.</li>
+</ul>
+</p>
 
-                    <ul style="list-style-type: square">
-                        <li>Ihr Webbrowser muss Javascript unterstützen und erlauben.</li>
-                        <li>Die Auswahl der Vergleiche ist zufällig. </li>
-                        <li>Sie können jederzeit aufhören oder anfangen.</li>
-                        <li>Sie können die URL eines Vergleiches bookmarken und später zu einem Titel zurückkehren oder den Link per E-Mail versenden.</li>
-                        <li>Die Oberfläche ist mobile-fähig, Sie können die Seite mit Ihrem Smartphone oder Tablet nutzen.</li>
-                        <li>Einmal abgegebene Stimmen können nicht zurückgenommen werden. Sie können aber zurückgehen (Zurück im Browser) und ein anderes Votum abgeben.</li>
-                    </ul>
-                </p>
-
-                <h4>Kontakt</h4>
-
-                <p>Fragen und Anregungen bitte an das Finc Team:
-                    <a href="mailto:team@finc.info">team@finc.info</a>.
-                </p>
+<h4>Kontakt</h4>
+<p>Fragen und Anregungen bitte an das Finc Team: <a href="mailto:team@finc.info">team@finc.info</a>.</p>
 
             </div>
         </div>
