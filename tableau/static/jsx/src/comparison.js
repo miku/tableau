@@ -28,35 +28,54 @@ var FieldValue = React.createClass({
         this.preventDefault();
     },
     render: function() {
+        // not specified is just a dash
         if (this.props.value === undefined) {
             return (<td className="value not-available">-</td>);
         }
+
+        // check, if we have an URL ...
         if (_.str.startsWith(this.props.value, "http")) {
             return (<td className="value">
                 <HyperLinkValue value={this.props.value}
                 shortenUrls={this.props.shortenUrls} /></td>);
-        } else {
-            if (this.props.value.length > this.props.cutoff) {
-                if (this.state.collapsed) {
-                    var value = _.str.prune(this.props.value,
-                        this.props.cutoff, "");
-                    var remainingChars = this.props.value.length -
-                    this.props.cutoff;
-                    return (<td className="value">{value} &mdash;
-                        <a onClick={this.handleClick}
-                        href={"#" + this.props.id}>
-                        <span className="expand-value">
-                        {remainingChars} more...</span></a></td>);
-                } else {
-                    return (<td className="value">{this.props.value}
-                        &mdash; <a onClick={this.handleClick}
-                        href={"#" + this.props.id}>Collapse</a></td>);
-                }
+        }
 
+        var isbnPattern = /(.*?)([0-9X-]{10,25})(.*)/;
+
+        // make ISBNs clickable (worldcat)
+        if (this.props.value.match(isbnPattern)) {
+            var match = isbnPattern.exec(this.props.value);
+            if (match[2].length >= 13 && match[2].substring(0, 3) !== "978") {
+                // prevent long digit strings to be turned into links
+                // TODO: make a better regex!
             } else {
-                return (<td className="value">{this.props.value}</td>);
+                return (<td className="value">{match[1]}
+                        <a href={"http://www.worldcat.org/search?q=" + match[2]}>{match[2]}</a>
+                        {match[3]}</td>);
             }
         }
+
+        if (this.props.value.length > this.props.cutoff) {
+            if (this.state.collapsed) {
+                var value = _.str.prune(this.props.value,
+                    this.props.cutoff, "");
+                var remainingChars = this.props.value.length -
+                this.props.cutoff;
+                return (<td className="value">{value} &mdash;
+                    <a onClick={this.handleClick}
+                    href={"#" + this.props.id}>
+                    <span className="expand-value">
+                    {remainingChars} more...</span></a></td>);
+            } else {
+                return (<td className="value">{this.props.value}
+                    &mdash; <a onClick={this.handleClick}
+                    href={"#" + this.props.id}>Collapse</a></td>);
+            }
+
+        } else {
+            return (<td className="value">{this.props.value}</td>);
+        }
+
     }
 });
 
