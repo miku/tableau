@@ -100,17 +100,20 @@ var FieldRow = React.createClass({
 
 var ComparisonTable = React.createClass({
     getDefaultProps: function() {
-        return {defaultTags: {"001": [],
+        return {defaultTags: {
+        "001": [],
         "020": ["a", "9"],
         "100": [],
         "245": ["a", "b", "c"],
-        "250": ["a"],
-        "260": ["a", "b", "c"],
-        "300": ["a"],
-        "500": ["a"],
-        "655": ["a"],
-        "700": ["a"],
-        "935": ["a", "b"]}};
+        // "250": ["a"],
+        // "260": ["a", "b", "c"],
+        // "300": ["a"],
+        // "500": ["a"],
+        // "655": ["a"],
+        "700": [],
+        "776": [], // TODO: fix omitted non-first single tag ...
+        // "935": ["a", "b"]
+    }};
     },
     getInitialState: function() {
         return {expanded: false};
