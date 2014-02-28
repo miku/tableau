@@ -2,322 +2,69 @@
 
 {% block content %}
 <div class="row">
-    <div class="small-12 large-12 columns">
-        <div class="content">
+<div class="small-12 large-12 columns">
+<div class="content">
 
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {{ messages|join(" ") }} <span id="compared">{{ compared }} Stimmen gesammelt.</span>
-                <hr>
-              {% endif %}
-            {% endwith %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {{ messages|join(" ") }} <span id="compared">{{ compared }} Stimmen gesammelt.</span>
+        <hr>
+    {% endif %}
+{% endwith %}
 
-            <p>Vergleiche {{ session.pairs|length }} Quellenpaar{% if session.pairs|length > 1%}e{% endif %}
-                (<a href="{{ url_for('settings') }}">ändern...</a>).
-            </p>
+<p>Vergleiche {{ session.pairs|length }} Quellenpaar{% if session.pairs|length > 1%}e{% endif %}
+(<a href="{{ url_for('settings') }}">ändern...</a>).</p>
 
-            <h3>
-                <a href="{{ source_id_link(payload.left.source_id) }}">
-                    {{ payload.left.index|upper }}</a> vs
-                <a href="{{ source_id_link(payload.right.source_id) }}">
-                    {{ payload.right.index|upper }}</a>
-            </h3>
+<h3>
+<a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index|upper }}</a> vs
+<a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index|upper }}</a>
+</h3>
 
-            <p>Vergleiche
-                <a href="{{ record_id_link(payload.left.id) }}">{{ payload.left.id }}</a> aus
-                <strong><a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index }}</a></strong> mit
-                <a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> aus
-                <strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
-            </p>
-            <p>
-                Bitte klicken Sie <strong><span class="vote-ok">Ja</span></strong>, wenn Sie glauben, die beide Records
-                repräsentieren das gleiche Werk.
-                Klicken Sie bitte <strong><span class="vote-no">Nein</span></strong>, wenn Sie glauben, daß die
-                beiden Records sich auf unterschiedliche Medien beziehen.
-                Klicken Sie bitte <strong><span class="vote-skip">Überspringen</span></strong>, wenn Sie kein Urteil abgeben möchten.
+<p>Vergleiche
+<a href="{{ record_id_link(payload.left.id) }}">{{ payload.left.id }}</a> aus
+<strong><a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index }}</a></strong> mit
+<a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> aus
+<strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
+</p>
+<p>
+Bitte klicken Sie <strong><span class="vote-ok">Ja</span></strong>, wenn Sie
+glauben, die beide Records repräsentieren das gleiche Werk. Klicken Sie bitte
+<strong><span class="vote-no">Nein</span></strong>, wenn Sie glauben, daß die
+beiden Records sich auf unterschiedliche Medien beziehen. Klicken Sie bitte
+<strong><span class="vote-skip">Überspringen</span></strong>, wenn Sie kein
+Urteil abgeben möchten.
+</p>
+<hr>
 
-            </p>
+<h5>Handelt es sich bei den beiden Titeln um ein Duplikat?</h5>
 
-            <hr>
+<div class="buttons">
+<a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
+                               feedback='%s:%s::%s:%s::OK::%s' % (
+                               payload.left.index, payload.left.id,
+                               payload.right.index, payload.right.id, now())) }}"
+    class="button radius secondary success">Ja</a>
 
-        <h5>Handelt es sich bei den beiden Titeln um ein Duplikat?</h5>
+<a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
+                               feedback='%s:%s::%s:%s::NO::%s' % (
+                               payload.left.index, payload.left.id,
+                               payload.right.index, payload.right.id, now())) }}"
+    class="button radius secondary alert">Nein</a>
 
-
-
-        <div class="buttons">
-            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
-                                           feedback='%s:%s::%s:%s::OK::%s' % (
-                                                payload.left.index, payload.left.id,
-                                                payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary success">Ja</a>
-
-            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
-                                           feedback='%s:%s::%s:%s::NO::%s' % (
-                                                payload.left.index, payload.left.id,
-                                                payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary alert">Nein</a>
-
-            <a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
-                                           feedback='%s:%s::%s:%s::SKIP::%s' % (
-                                                payload.left.index, payload.left.id,
-                                                payload.right.index, payload.right.id, now())) }}"
-                class="button radius secondary">Überspringen</a>
-        </div>
-
-            <!-- Comparison table gets attached here -->
-            <div id="comparison"></div>
-        </div>
-    </div>
+<a href="{{ url_for('compare', left=next_pair.left, right=next_pair.right,
+                               feedback='%s:%s::%s:%s::SKIP::%s' % (
+                               payload.left.index, payload.left.id,
+                               payload.right.index, payload.right.id, now())) }}"
+    class="button radius secondary">Überspringen</a>
 </div>
 
+<div id="comparison"></div>
+
+</div> <!-- content -->
+</div> <!-- col -->
+</div> <!-- row -->
+
 <script>
-var HyperLinkValue = React.createClass({displayName: 'HyperLinkValue',
-    getDefaultProps: function() {
-        return {'shortenUrls': false};
-    },
-    render: function() {
-        var value = this.props.value;
-        if (this.props.shortenUrls) {
-            return (React.DOM.a( {href:value, title:value},
-                $.url(value).attr('host')));
-        } else {
-            return (React.DOM.a( {href:value}, value));
-        }
-    }
-});
-
-var FieldValue = React.createClass({displayName: 'FieldValue',
-    getInitialState: function() {
-        return {'collapsed': true};
-    },
-    getDefaultProps: function() {
-        return {'shortenUrls': true,
-        'cutoff': 75,
-        'id': Math.random().toString(36).slice(2) };
-    },
-    handleClick: function() {
-        this.setState({collapsed: !this.state.collapsed});
-        this.preventDefault();
-    },
-    render: function() {
-        if (this.props.value === undefined) {
-            return (React.DOM.td( {className:"value not-available"}, "-"));
-        }
-        if (_.str.startsWith(this.props.value, "http")) {
-            return (React.DOM.td( {className:"value"},
-                HyperLinkValue( {value:this.props.value,
-                shortenUrls:this.props.shortenUrls} )));
-        } else {
-            if (this.props.value.length > this.props.cutoff) {
-                if (this.state.collapsed) {
-                    var value = _.str.prune(this.props.value,
-                        this.props.cutoff, "");
-                    var remainingChars = this.props.value.length -
-                    this.props.cutoff;
-                    return (React.DOM.td( {className:"value"}, value, " — ",
-                        React.DOM.a( {onClick:this.handleClick,
-                        href:"#" + this.props.id},
-                        React.DOM.span( {className:"expand-value"},
-                        remainingChars, " more..."))));
-                } else {
-                    return (React.DOM.td( {className:"value"}, this.props.value,
-                        " — ", React.DOM.a( {onClick:this.handleClick,
-                        href:"#" + this.props.id}, "Collapse")));
-                }
-
-            } else {
-                return (React.DOM.td( {className:"value"}, this.props.value));
-            }
-        }
-    }
-});
-
-var FieldRow = React.createClass({displayName: 'FieldRow',
-    getDefaultProps: function() {
-        omitTag: true
-    },
-    render: function() {
-        var tag = this.props.tag;
-        if (this.props.omitTag) { tag = ""; }
-        var rowIsComparable = (this.props.leftValue !== undefined &&
-            this.props.rightValue !== undefined);
-        var comparableClass = rowIsComparable ? "comparable" : "incomparable";
-        return (React.DOM.tr( {className:"field", className:comparableClass},
-            React.DOM.td( {className:"tag"}, tag),
-            React.DOM.td(null, this.props.code),
-            FieldValue( {value:this.props.leftValue} ),
-            FieldValue( {value:this.props.rightValue} )
-            ));
-    }
-});
-
-var ComparisonTable = React.createClass({displayName: 'ComparisonTable',
-    getDefaultProps: function() {
-        return {defaultTags: {"001": [],
-        "020": ["a", "9"],
-        "100": [],
-        "245": ["a", "b", "c"],
-        "250": ["a"],
-        "260": ["a", "b", "c"],
-        "300": ["a"],
-        "500": ["a"],
-        "655": ["a"],
-        "700": ["a"],
-        "935": ["a", "b"]}};
-    },
-    getInitialState: function() {
-        return {expanded: false};
-    },
-    getAllDefinedTags: function() {
-        var keys = _.union(Object.keys(this.props.left['record']['content']),
-            Object.keys(this.props.right['record']['content']));
-        dict = {}
-        keys.forEach(function(key) { dict[key] = []; });
-        return dict;
-    },
-    handleClick: function() {
-        this.setState({expanded: !this.state.expanded});
-    },
-    render: function() {
-        $this = this;
-        var rows = [];
-        var tags = this.state.expanded ? this.getAllDefinedTags() :
-        this.props.defaultTags;
-
-        Object.keys(tags).sort().forEach(function(tag, i) {
-
-            leftValue = $this.props.left['record']['content'][tag] ||
-            (tag < "010" ? "-" : []);
-            rightValue = $this.props.right['record']['content'][tag] ||
-            (tag < "010" ? "-" : []);
-
-            if (tag < "010") {
-                // simple control field
-                rows.push(FieldRow( {tag:tag, omitTag:false, code:"",
-                    leftValue:leftValue, rightValue:rightValue} ));
-            } else {
-                // complicated data field
-                // maximum number of repeated fields, e.g. 2 x "020" etc.
-                var max = Math.max(leftValue.length, rightValue.length);
-
-                for (var i = 0; i < max; i++) {
-                    leftValue[i] = leftValue[i] || {};
-                    rightValue[i] = rightValue[i] || {};
-
-                    // subfield codes
-                    leftCodes = Object.keys(leftValue[i]);
-                    rightCodes = Object.keys(rightValue[i]);
-                    var codes = _.union(leftCodes, rightCodes);
-
-                    // ignore indicator for now
-                    codes = _.without(codes, "ind1", "ind2");
-
-                    // for each subfield code that appears in either doc
-                    for (var j = 0; j < codes.length; j++) {
-                        var code = codes[j];
-
-                        if (tags[tag].length == 0 ||
-                            _.contains(tags[tag], code)) {
-                            // get the subfield value ...
-                        var leftSubfieldValue = leftValue[i][code];
-                        var rightSubfieldValue = rightValue[i][code];
-
-                            // .. normalize to an array
-                            // TODO: make arrays the default down the chain!
-                            if (!_.isArray(leftSubfieldValue)) {
-                                leftSubfieldValue = [leftSubfieldValue];
-                            }
-                            if (!_.isArray(rightSubfieldValue)) {
-                                rightSubfieldValue = [rightSubfieldValue];
-                            }
-
-                            // typical subfield value count is 1,
-                            // but repeated subfield values have been
-                            // spotted in 100.a, 936.k, ...
-                            maxSubfieldValueCount = Math.max(
-                                leftSubfieldValue.length,
-                                rightSubfieldValue.length);
-
-                            for (var k = 0; k < maxSubfieldValueCount; k++) {
-                                rows.push(FieldRow( {tag:tag,
-                                    omitTag:k > 0 || j > 0,
-                                    code:code,
-                                    leftValue:leftSubfieldValue[k],
-                                    rightValue:rightSubfieldValue[k]} ));
-                            }
-                        }
-                    }
-                }
-            }
-        });
-var linkText = this.state.expanded ? "Weniger Details" : "Mehr Details";
-rows.push(React.DOM.tr(null,
-    React.DOM.td( {colSpan:"4"}, React.DOM.a( {onClick:this.handleClick,
-    href:"#"}, linkText) )));
-return (React.DOM.table(null, React.DOM.tbody(null, rows)));
-}
-});
-
-var Comparison = React.createClass({displayName: 'Comparison',
-    getInitialState: function() {
-        return {left: {}, right: {}, };
-    },
-    getDefaultProps: function() {
-        return {'base': 'http://localhost:5000/doc'}
-    },
-    componentWillMount: function() {
-        var $this = this;
-        var leftParts = this.props.left.split("://");
-        var leftIndex = leftParts[0];
-        var leftId = leftParts[1];
-        var leftUrl = this.props.base + "/" + leftIndex + "/" + leftId;
-
-        var rightParts = this.props.right.split("://");
-        var rightIndex = rightParts[0];
-        var rightId = rightParts[1];
-        var rightUrl = this.props.base + "/" + rightIndex + "/" + rightId;
-
-        $.ajax({
-            url: leftUrl,
-            datatype: 'json',
-            success: function(data) {
-                $this.setState({left: {index: leftIndex, id: leftId,
-                    record: data}});
-            },
-            error: function(xhr, status, err) {
-                console.error(xhr, status, err);
-            }
-        });
-
-        $.ajax({
-            url: rightUrl,
-            datatype: 'json',
-            success: function(data) {
-                $this.setState({right: {index: rightIndex, id: rightId,
-                    record: data}});
-            },
-            error: function(xhr, status, err) {
-                console.error(xhr, status, err);
-            }
-        });
-    },
-    render: function() {
-        if (_.isEmpty(this.state.left) && _.isEmpty(this.state.right)) {
-            return (React.DOM.div(null, React.DOM.p(null, React.DOM.img( {src:"{{ url_for('static', filename='images/ajax-loader.gif')}}"} ), " – Loading two documents...")));
-        } else if (_.isEmpty(this.state.left) || _.isEmpty(this.state.right)) {
-            return (React.DOM.div(null, React.DOM.p(null, React.DOM.img( {src:"{{ url_for('static', filename='images/ajax-loader.gif')}}"} ), " – Loaded one documents, one to go...")));
-        } else {
-            return (React.DOM.div(null, ComparisonTable( {left:this.state.left,
-                right:this.state.right} )));
-        }
-    }
-});
-
-React.renderComponent(
-    Comparison( {base:"{{ payload.base }}",
-    left:"{{ payload.left.index }}://{{ payload.left.id }}",
-    right:"{{ payload.right.index }}://{{ payload.right.id }}"} ),
-    document.getElementById("comparison"));
+{% include "comparison.js" %}
 </script>
 {% endblock %}
-
