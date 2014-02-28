@@ -19,7 +19,9 @@ Build and run
 
 * More serious
 
-        (tableau)$ gunicorn tableau.app:app
+        (tableau)$ gunicorn --access-logfile ~/log/tableau.log \
+                            --error-logfile ~/log/tableau-error.log \
+                            --workers 4 --bind "0.0.0.0:5000" tableau.app:app
 
 Screenshot
 ----------
