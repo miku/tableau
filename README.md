@@ -24,13 +24,16 @@ Build and run
                             --workers 4 --bind "0.0.0.0:5000" tableau.app:app
 
 
-Develop the React.js component
-------------------------------
+Develop the comparison table
+----------------------------
+
+The comparison table is a [react.js](http://facebook.github.io/react/) compontent,
+written in the JSX flavor.
 
 The JSX component for the comparison table is located under
 `tableau/static/jsx/src/comparison.js`.
 
-You can compile the JSX (recommended for production) via
+You can compile the JSX via
 
     $ make compile-jsx
 
