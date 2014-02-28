@@ -26,20 +26,9 @@
                     <tr class="vote-total"><td>Total</td><td>{{ votes.total }}</td></tr>
                 </table>
 
-
-<!--                 <h4>Mode of operation</h4>
-
-                <p><a href="{{ url_for('sample') }}">Hello Venn</a></p>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
- -->
-
                 <h4>Vorgehensweise</h4>
+
+                <p>Siehe auch <a href="http://intern.ub.uni-leipzig.de/blog/?p=2823">Blogeintrag vom 28.2.2014</a>.</p>
 
                 <p>
                     In der unscharfen Deduplizierung geht es um das Auffinden
@@ -47,10 +36,11 @@
                     Der Prozess läuft im Moment in groben Zügen wie folgt ab:
 
                     <ol>
-                        <li>Für die Quellen BSZ, EBL und NEP werden mit Hilfe von
-                            Suchmaschinentechnologie anhand des Titels und des Untertitels
-                            ähnliche Titel ermittelt. In diesem Schritt sind noch
-                            mehrere hunderttausend Kandidaten im Rennen.
+                        <li>Für die Quellen BSZ (SWB), EBL (E-Book library) und
+                            NEP (Nutzergesteuerte Erwerbung, Print) werden mit Hilfe von
+                            <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-more-like-this.html">Suchmaschinentechnologie</a>
+                            anhand des Titels und des Untertitels ähnliche Datensätze ermittelt.
+                            In diesem Schritt sind noch mehrere hunderttausend Kandidaten im Rennen.
                         </li>
                         <li>Mit einem <a href="http://de.wikipedia.org/wiki/N-Gramm">N-Gramm</a>
                             Vergleich werden die ähnlichen noch einmal miteinander
