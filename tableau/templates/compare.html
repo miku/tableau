@@ -13,7 +13,7 @@
 {% endwith %}
 
 <p>Vergleiche {{ session.pairs|length }} Quellenpaar{% if session.pairs|length > 1%}e{% endif %}
-(<a href="{{ url_for('settings') }}">ändern...</a>).</p>
+(<a href="{{ url_for('settings') }}">ändern...</a>). Vergleichskriterien: siehe <a href="http://intern.ub.uni-leipzig.de/blog/?p=2823">Blogeintrag vom 28.2.</a></p>
 
 <h3>
 <a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index|upper }}</a> vs
@@ -26,14 +26,15 @@
 <a href="{{ record_id_link(payload.right.id) }}">{{ payload.right.id}}</a> aus
 <strong><a href="{{ source_id_link(payload.right.source_id) }}">{{ payload.right.index}}</a></strong>.
 </p>
-<p>
+
+<!-- <p>
 Bitte klicken Sie <strong><span class="vote-ok">Ja</span></strong>, wenn Sie
 glauben, die beide Records repräsentieren das gleiche Werk. Klicken Sie bitte
 <strong><span class="vote-no">Nein</span></strong>, wenn Sie glauben, daß die
 beiden Records sich auf unterschiedliche Medien beziehen. Klicken Sie bitte
 <strong><span class="vote-skip">Überspringen</span></strong>, wenn Sie kein
 Urteil abgeben möchten.
-</p>
+</p> -->
 <hr>
 
 <p>Handelt es sich bei den beiden Titeln um ein Duplikat?</p>
