@@ -200,7 +200,7 @@ var ComparisonTable = React.createClass({
                 }
             }
         });
-var linkText = this.state.expanded ? "Fewer Details" : "More Details";
+var linkText = this.state.expanded ? "Weniger Details" : "Mehr Details";
 rows.push(<tr>
     <td colSpan="4"><a onClick={this.handleClick}
     href="#">{linkText}</a> </td></tr>);
@@ -253,9 +253,9 @@ var Comparison = React.createClass({
     },
     render: function() {
         if (_.isEmpty(this.state.left) && _.isEmpty(this.state.right)) {
-            return (<div><p><img src="{{ url_for('static', filename='images/ajax-loader.gif')}}" /> &ndash; Loading two documents...</p></div>);
+            return (<div><p><img src="{{ url_for('static', filename='images/ajax-loader.gif')}}" /> &ndash; Lade zwei Records...</p></div>);
         } else if (_.isEmpty(this.state.left) || _.isEmpty(this.state.right)) {
-            return (<div><p><img src="{{ url_for('static', filename='images/ajax-loader.gif')}}" /> &ndash; Loaded one documents, one to go...</p></div>);
+            return (<div><p><img src="{{ url_for('static', filename='images/ajax-loader.gif')}}" /> &ndash; 50% ...</p></div>);
         } else {
             return (<div><ComparisonTable left={this.state.left}
                 right={this.state.right} /></div>);
