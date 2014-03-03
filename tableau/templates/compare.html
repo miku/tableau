@@ -13,7 +13,7 @@
 {% endwith %}
 
 <p>Vergleiche {{ session.pairs|length }} Quellenpaar{% if session.pairs|length > 1%}e{% endif %}
-(<a href="{{ url_for('settings') }}">ändern...</a>). Vergleichskriterien: siehe <a href="http://intern.ub.uni-leipzig.de/blog/?p=2823">Blogeintrag vom 28.2.</a></p>
+(<a href="{{ url_for('settings') }}">ändern...</a>). Vergleichskriterien: siehe <a href="http://intern.ub.uni-leipzig.de/blog/?p=2823">Blogeintrag vom 28.2.2014</a></p>
 
 <h3>
 <a href="{{ source_id_link(payload.left.source_id) }}">{{ payload.left.index|upper }}</a> vs
