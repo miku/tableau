@@ -44,8 +44,8 @@ to `tableau/temüplates/comparison.js` use
 
 
 
-Screenshot
-----------
+Screenshots
+-----------
 
 ![Summary](http://i.imgur.com/06y7y9C.png)
 
