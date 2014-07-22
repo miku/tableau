@@ -5,6 +5,7 @@ from crossdomain import crossdomain
 from flask import (Flask, render_template, session, redirect, request, url_for,
                    jsonify, Response, send_from_directory, abort, flash)
 from werkzeug.wsgi import DispatcherMiddleware
+from werkzeug.serving import run_simple
 from utils import dbopen
 from timer import Timer
 from operator import itemgetter
@@ -18,6 +19,9 @@ import random
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yXasdsadR~sdgXHH!jmN]LWX/,?RT'
+
+app.config['DEBUG'] = True
+# app.config['APPLICATION_ROOT'] = ''
 
 dispatcher = DispatcherMiddleware(app, {
     '/deduplication':     app
@@ -295,4 +299,5 @@ def hello():
 
 if __name__ == "__main__":
     # app.run(debug=True, host="0.0.0.0")
-    dispatcher.run(debug=True, host="0.0.0.0")
+    # dispatcher.run(debug=True, host="0.0.0.0")
+    run_simple('0.0.0.0', 5000, dispatcher, use_reloader=True)
