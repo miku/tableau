@@ -10,5 +10,5 @@ gunicorn==19.5.0
 itsdangerous==0.23
 ply==3.4
 six==1.5.2
-urllib3==1.24.2
+urllib3==1.26.5
 wsgiref==0.1.2
